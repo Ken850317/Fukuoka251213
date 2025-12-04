@@ -1,0 +1,37 @@
+# .github/workflows/deploy.yml
+
+name: Deploy Itinerary Website
+
+# 觸發條件
+on:
+  # 1. 當推送到 main 分支，且 itinerary-data.js 有變動時
+  push:
+    branches:
+      - main
+    paths:
+      - 'itinerary-data.js'
+  # 2. 允許在 GitHub 頁面上手動觸發
+  workflow_dispatch:
+
+# 權限設定
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 工作 (Job)
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # 將整個專案目錄上傳
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
