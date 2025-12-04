@@ -1,0 +1,35 @@
+steps:
+# 步驟 1: 建置 Docker 映像檔
+# 使用 gcr.io/cloud-builders/docker 這個建置工具
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'build'
+    - '-t'
+    - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
+    - '.'
+  id: 'Build'
+
+# 步驟 2: 將映像檔推送到 Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'push'
+    - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
+  id: 'Push'
+
+# 步驟 3: 將新映像檔部署到 Cloud Run
+# 使用 gcr.io/google.com/cloudsdktool/cloud-sdk 這個建置工具 (包含 gcloud 指令)
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'gcloud'
+  args:
+    - 'run'
+    - 'deploy'
+    - '${_SERVICE_NAME}'
+    - '--image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
+    - '--region=${_REGION}'
+    - '--platform=managed'
+    - '--allow-unauthenticated'
+  id: 'Deploy'
+
+# 指定最終要推送到 Artifact Registry 的映像檔
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
