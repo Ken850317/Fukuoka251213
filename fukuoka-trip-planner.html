@@ -4,45 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>福岡25" 社畜自由行</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./itinerary-data.js"></script>
-    <style>
-        /* 基礎樣式與動畫 */
-        body {
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-        }
-        .content-section {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .content-section.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* 每日行程時間軸樣式 */
-        .timeline-item {
-            position: relative;
-            padding-left: 30px;
-            border-left: 2px solid #e5e7eb; /* gray-200 */
-        }
-        .timeline-item:last-child {
-            border-left: 2px solid transparent;
-        }
-        .timeline-dot {
-            position: absolute;
-            left: -9px;
-            top: 4px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: #3b82f6; /* blue-500 */
-            border: 2px solid #ffffff;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- 提示：正式上線建議使用 build 方式 -->
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -56,13 +19,13 @@
 
     <!-- Navigation -->
     <nav class="bg-blue-500 text-white">
-        <div class="container mx-auto px-2">
-            <div class="flex justify-center md:justify-start space-x-2 md:space-x-6 overflow-x-auto">
-                <button data-target="overview" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap">行程總覽</button>
-                <button data-target="transport" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap">交通住宿</button>
-                <button data-target="daily" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap">每日行程</button>
-                <button data-target="food" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap">美食地圖</button>
-                <button data-target="prep" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap">行前準備</button>
+        <div id="nav-container" class="container mx-auto px-2">
+            <div class="flex justify-center md:justify-start space-x-2 md:space-x-6 overflow-x-auto" role="tablist" aria-label="行程導覽">
+                <button data-target="overview" class="nav-btn py-3 px-4 font-semibold transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="true">行程總覽</button>
+                <button data-target="transport" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">交通住宿</button>
+                <button data-target="daily" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">每日行程</button>
+                <button data-target="food" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">美食地圖</button>
+                <button data-target="prep" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">行前準備</button>
             </div>
         </div>
     </nav>
@@ -146,14 +109,14 @@
         <!-- Section: 美食地圖 -->
         <section id="food" class="content-section">
             <h2 class="text-2xl font-bold mb-4 border-l-4 border-blue-500 pl-3">美食地圖</h2>
-            <div class="mb-6 flex flex-wrap gap-2">
-                <button class="food-filter-btn bg-blue-500 text-white py-1 px-3 rounded-full text-sm" data-category="all">全部</button>
-                <button class="food-filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-category="拉麵">拉麵</button>
-                <button class="food-filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-category="特產">特產</button>
-                <button class="food-filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-category="屋台">屋台</button>
-                <button class="food-filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-category="燒肉">燒肉</button>
-                <button class="food-filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-category="海鮮">海鮮</button>
-                <button class="food-filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-category="甜點">甜點</button>
+            <div id="food-filter-container" class="mb-6 flex flex-wrap gap-2">
+                <button class="food-filter-btn bg-blue-500 text-white py-1 px-3 rounded-full text-sm" data-category="all" aria-selected="true">全部</button>
+                <button class="food-filter-btn bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-full text-sm" data-category="拉麵" aria-selected="false">拉麵</button>
+                <button class="food-filter-btn bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-full text-sm" data-category="特產" aria-selected="false">特產</button>
+                <button class="food-filter-btn bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-full text-sm" data-category="屋台" aria-selected="false">屋台</button>
+                <button class="food-filter-btn bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-full text-sm" data-category="燒肉" aria-selected="false">燒肉</button>
+                <button class="food-filter-btn bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-full text-sm" data-category="海鮮" aria-selected="false">海鮮</button>
+                <button class="food-filter-btn bg-gray-200 hover:bg-gray-300 py-1 px-3 rounded-full text-sm" data-category="甜點" aria-selected="false">甜點</button>
             </div>
             <div id="food-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- JS 會動態生成內容於此 -->
@@ -187,168 +150,8 @@
         </p>
     </footer>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- 頁面導覽邏輯 ---
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const contentSections = document.querySelectorAll('.content-section');
-        const activeBtnClass = 'bg-blue-700';
-        const inactiveBtnClass = 'hover:bg-blue-600';
-
-        // 初始化第一個按鈕為 active
-        const firstBtn = document.querySelector('.nav-btn[data-target="overview"]');
-        if(firstBtn) firstBtn.classList.add(activeBtnClass.replace('hover:bg-blue-600', ''));
-
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.dataset.target;
-
-                // 更新按鈕樣式
-                navBtns.forEach(b => {
-                    b.classList.remove(...activeBtnClass.split(' '));
-                    b.classList.add(...inactiveBtnClass.split(' '));
-                });
-                btn.classList.add(...activeBtnClass.split(' '));
-                btn.classList.remove(...inactiveBtnClass.split(' '));
-
-                // 顯示對應區塊
-                contentSections.forEach(section => {
-                    if (section.id === targetId) {
-                        section.classList.add('active');
-                    } else {
-                        section.classList.remove('active');
-                    }
-                });
-            });
-        });
-
-        // --- Chart.js 預算圖表 ---
-        const budgetCtx = document.getElementById('budgetChart');
-        if (budgetCtx) {
-            new Chart(budgetCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['住宿 (50%)', '餐飲 (31%)', '交通 (8%)', '門票與雜支 (11%)'],
-                    datasets: [{
-                        label: '預算分配',
-                        data: [48000, 30000, 8000, 10000],
-                        backgroundColor: [
-                            '#60a5fa', // blue-400
-                            '#3b82f6', // blue-500
-                            '#2563eb', // blue-600
-                            '#93c5fd'  // blue-300
-                        ],
-                        borderColor: '#ffffff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(context.parsed);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // --- 動態生成每日行程 ---
-        const dailyContainer = document.getElementById('daily-itinerary-container');
-        if (dailyContainer && typeof dailyItineraryData !== 'undefined') {
-            dailyItineraryData.forEach(day => {
-                const dayElement = document.createElement('div');
-                dayElement.innerHTML = `
-                    <h3 class="text-xl font-bold mb-4 text-blue-600">Day ${day.day} (${day.date}): ${day.theme}</h3>
-                    <div class="space-y-8">
-                        ${day.schedule.map(item => `
-                            <div class="timeline-item pb-8">
-                                <div class="timeline-dot"></div>
-                                <div class="flex items-baseline">
-                                    <p class="font-bold text-md text-gray-800 w-24">${item.time}</p>
-                                    <h4 class="font-semibold text-lg text-gray-900">${item.activity}</h4>
-                                </div>
-                                <div class="ml-24 mt-1">
-                                    <p class="text-gray-600 mb-2">${item.description}</p>
-                                    <div class="text-sm text-gray-500 space-y-1">
-                                        <p>🕒 停留：${item.duration}</p>
-                                        <p>🚇 交通：${item.transport}</p>
-                                        <a href="${item.mapLink}" target="_blank" class="inline-block mt-1 text-blue-500 hover:underline">
-                                            在 Google Maps 上查看 ↗
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-                dailyContainer.appendChild(dayElement);
-            });
-        }
-
-        // --- 美食地圖與篩選邏輯 ---
-        const foodContainer = document.getElementById('food-list-container');
-        const filterBtns = document.querySelectorAll('.food-filter-btn');
-
-        function renderFoodList(category = 'all') {
-            if (!foodContainer || typeof foodData === 'undefined') return;
-            foodContainer.innerHTML = '';
-            
-            const filteredData = category === 'all' 
-                ? foodData 
-                : foodData.filter(item => item.category === category);
-
-            filteredData.forEach(food => {
-                const foodCard = document.createElement('div');
-                foodCard.className = 'food-card bg-white rounded-lg shadow overflow-hidden transition-transform duration-300 hover:scale-105';
-                foodCard.dataset.category = food.category;
-                foodCard.innerHTML = `
-                    <div class="p-5">
-                        <div class="flex justify-between items-start">
-                            <h4 class="text-lg font-bold text-gray-900">${food.name}</h4>
-                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">${food.category}</span>
-                        </div>
-                        <p class="text-gray-600 mt-2 mb-3">${food.description}</p>
-                        <a href="${food.mapLink}" target="_blank" class="font-semibold text-blue-600 hover:underline">
-                            地圖位置 ↗
-                        </a>
-                    </div>
-                `;
-                foodContainer.appendChild(foodCard);
-            });
-        }
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const category = btn.dataset.category;
-                renderFoodList(category);
-                // 更新按鈕樣式
-                filterBtns.forEach(b => {
-                    b.classList.remove('bg-blue-500', 'text-white');
-                    b.classList.add('bg-gray-200', 'text-gray-700');
-                });
-                btn.classList.add('bg-blue-500', 'text-white');
-                btn.classList.remove('bg-gray-200', 'text-gray-700');
-            });
-        });
-
-        // 初始載入
-        renderFoodList();
-    });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="./itinerary-data.js" defer></script>
+    <script src="./main.js" defer></script>
 </body>
 </html>
