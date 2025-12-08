@@ -1,11 +1,17 @@
-# 使用官方的 Nginx 映像檔作為基礎
-# Nginx 是一個非常輕量且高效的網頁伺服器
-FROM nginx:1.25-alpine
+# 使用官方的 Node.js 18 LTS (長期支援) 版本作為基礎映像
+FROM node:18-slim
 
-# 將您的網頁相關檔案複製到 Nginx 預設的網站根目錄
-COPY ./fukuoka-trip-planner.html /usr/share/nginx/html/index.html
-COPY ./main.js /usr/share/nginx/html/main.js
-COPY ./itinerary-data.js /usr/share/nginx/html/itinerary-data.js
+# 在容器中建立一個工作目錄
+WORKDIR /usr/src/app
 
-# 告訴 Cloud Run，您的服務將在哪個 port 上運行 (Nginx 預設為 80)
-EXPOSE 80
+# 複製 package.json 和 package-lock.json (如果有的話)
+COPY package*.json ./
+
+# 安裝專案相依套件
+RUN npm install
+
+# 將所有專案檔案複製到工作目錄
+COPY . .
+
+# 容器啟動時要執行的指令
+CMD [ "npm", "start" ]
