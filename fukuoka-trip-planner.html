@@ -49,7 +49,12 @@
                     </ul>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-lg font-semibold mb-3">預算分配圖 (預估)</h3>
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-lg font-semibold">預算分配圖 (預估)</h3>
+                        <button id="currency-toggle-btn" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full hover:bg-blue-200 transition-colors">
+                            切換至 JPY
+                        </button>
+                    </div>
                     <canvas id="budgetChart"></canvas>
                 </div>
             </div>
@@ -59,41 +64,13 @@
         <section id="transport" class="content-section">
             <h2 class="text-2xl font-bold mb-4 border-l-4 border-blue-500 pl-3">交通住宿</h2>
             <div class="space-y-6">
-                <div class="bg-white p-6 rounded-lg shadow">
+                <div id="transport-container" class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3">主要交通方式</h3>
-                    <ul class="list-disc list-inside space-y-3 text-gray-700">
-                        <li>
-                            <strong>航班資訊:</strong>
-                            <ul class="list-['-_'] list-inside ml-4 text-sm">
-                                <li>去程: 臺灣桃園機場 (TPE) CI 110 → 福岡 (FUK) | 12/13 06:50 - 10:00</li>
-                                <li>回程: 福岡 (FUK) CI 117 → 臺灣桃園機場 (TPE) | 12/17 20:35 - 22:20</li>
-                            </ul>
-                        </li>
-                        <li><strong>已購票券:</strong>
-                            <ul class="list-['-_'] list-inside ml-4 text-sm">
-                                <li>九州3日JR Pass (主要使用於 Day 2, 3, 4)</li>
-                                <li>福岡機場 ⇄ 博多車站 地鐵乘車券</li>
-                            </ul>
-                        </li>
-                        <li><strong>備用交通卡:</strong> 建議準備 SUICA 或 ICOCA 等全國通用的 IC 卡，用於搭乘 JR Pass 範圍外的交通工具。</li>
-                    </ul>
+                    <!-- JS 會動態生成交通內容於此 -->
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow">
+                <div id="accommodation-container" class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3">飯店資訊</h3>
-                    <ul class="space-y-4">
-                        <li>
-                            <p class="font-semibold text-gray-800">12/13 - 12/14: 百年溫泉旅館 京都屋</p>
-                            <a href="https://maps.app.goo.gl/MBTCPWAJGxtcnSKu8?g_st=ipc" target="_blank" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
-                                查看地圖與資訊 ↗
-                            </a>
-                        </li>
-                        <li>
-                            <p class="font-semibold text-gray-800">12/15 - 12/16: 博多站前靜鐵PREZIO飯店</p>
-                            <a href="https://maps.app.goo.gl/Kco2HLEARREGqReE7?g_st=ipc" target="_blank" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
-                                查看地圖與資訊 ↗
-                            </a>
-                        </li>
-                    </ul>
+                    <!-- JS 會動態生成住宿內容於此 -->
                 </div>
             </div>
         </section>
@@ -112,6 +89,10 @@
         <!-- Section: 美食地圖 -->
         <section id="food" class="content-section">
             <h2 class="text-2xl font-bold mb-4 border-l-4 border-blue-500 pl-3">美食地圖</h2>
+            <!-- Google Map 容器 -->
+            <div id="food-map-canvas" class="w-full h-96 md:h-[500px] mb-6 rounded-lg shadow-md bg-gray-200">
+                <!-- 地圖將會渲染於此 -->
+            </div>
             <div id="food-filter-container" class="mb-6 flex flex-wrap gap-2">
                 <!-- JS 會動態生成美食篩選按鈕於此 -->
             </div>
@@ -150,7 +131,10 @@
         </svg>
     </button>
 
+    <!-- Google Maps API Script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxTVh3FDtQ1zfQzBRrqwHyjRO4o6Ir1K4&loading=async" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js" defer></script>
     <script src="./itinerary-data.js" defer></script>
     <script src="./main.js" defer></script>
 </body>

@@ -35,31 +35,68 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function setupBudgetChart() {
         const budgetCtx = document.getElementById('budgetChart');
-        if (!budgetCtx) return;
+        const currencyBtn = document.getElementById('currency-toggle-btn');
+        if (!budgetCtx || !currencyBtn || typeof tripData === 'undefined' || !tripData.budget) return;
 
-        new Chart(budgetCtx, {
+        // 註冊 chartjs-plugin-datalabels
+        Chart.register(ChartDataLabels);
+
+        const budgetData = tripData.budget;
+        const jpyRate = budgetData.jpyRate || 4.7;
+        let currentCurrency = 'TWD';
+
+        const chartColors = ['#38bdf8', '#3b82f6', '#60a5fa', '#93c5fd', '#0ea5e9'];
+
+        const chartConfig = {
             type: 'doughnut',
             data: {
-                labels: ['住宿 (50%)', '餐飲 (31%)', '交通 (8%)', '門票與雜支 (11%)'],
                 datasets: [{
                     label: '預算分配',
-                    data: [48000, 30000, 8000, 10000],
-                    backgroundColor: ['#60a5fa', '#3b82f6', '#2563eb', '#93c5fd'],
+                    backgroundColor: chartColors,
                     borderColor: '#ffffff',
                     borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'bottom' },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 14 }
+                        }
+                    },
+                    // 設定 datalabels 插件
+                    datalabels: {
+                        color: '#ffffff',
+                        font: {
+                            weight: 'bold',
+                            size: 14,
+                        },
+                        formatter: (value, context) => {
+                            const currency = context.chart.options.plugins.datalabels.currency;
+                            const formatter = new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: currency,
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            });
+                            return formatter.format(value);
+                        }
+                    },
                     tooltip: {
                         callbacks: {
                             label: (context) => {
                                 let label = context.label || '';
                                 if (label) label += ': ';
                                 if (context.parsed !== null) {
-                                    label += new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(context.parsed);
+                                    label += new Intl.NumberFormat('en-US', {
+                                        style: 'currency',
+                                        currency: currentCurrency,
+                                        minimumFractionDigits: 0
+                                    }).format(context.parsed);
                                 }
                                 return label;
                             }
@@ -67,13 +104,81 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
+        };
+
+        const budgetChart = new Chart(budgetCtx, chartConfig);
+
+        function updateChart(currency) {
+            currentCurrency = currency;
+            const isJPY = currency === 'JPY';
+            budgetChart.data.labels = budgetData.items.map(item => item.label);
+            budgetChart.data.datasets[0].data = budgetData.items.map(item => isJPY ? item.amount * jpyRate : item.amount);
+            budgetChart.options.plugins.datalabels.currency = currency;
+            budgetChart.update();
+            currencyBtn.textContent = `切換至 ${isJPY ? 'TWD' : 'JPY'}`;
+        }
+
+        currencyBtn.addEventListener('click', () => {
+            updateChart(currentCurrency === 'TWD' ? 'JPY' : 'TWD');
         });
+
+        // 初始載入圖表
+        updateChart('TWD');
+    }
+
+    function setupAccommodation() {
+        const container = document.getElementById('accommodation-container');
+        if (!container || typeof tripData === 'undefined' || !tripData.accommodation) return;
+
+        const list = document.createElement('ul');
+        list.className = 'space-y-4';
+        list.innerHTML = tripData.accommodation.map(item => `
+            <li>
+                <p class="font-semibold text-gray-800">${item.dates}: ${item.name}</p>
+                <p class="text-sm text-gray-600 mt-1">${item.description}</p>
+                <a href="${item.mapLink}" target="_blank" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                    查看地圖與資訊 ↗
+                </a>
+            </li>
+        `).join('');
+        container.appendChild(list);
+    }
+
+    function setupTransport() {
+        const container = document.getElementById('transport-container');
+        if (!container || typeof tripData === 'undefined' || !tripData.transportation) return;
+
+        const transport = tripData.transportation;
+        const list = document.createElement('ul');
+        list.className = 'list-disc list-inside space-y-3 text-gray-700';
+        list.innerHTML = `
+            <li>
+                <strong>航班資訊:</strong>
+                <ul class="list-['-_'] list-inside ml-4 text-sm">
+                    <li>去程: ${transport.flights.departure}</li>
+                    <li>回程: ${transport.flights.return}</li>
+                </ul>
+            </li>
+            <li>
+                <strong>已購票券:</strong>
+                <ul class="list-['-_'] list-inside ml-4 text-sm">
+                    ${transport.passes.map(pass => `<li>${pass}</li>`).join('')}
+                </ul>
+            </li>
+            <li>
+                <strong>備用交通卡:</strong> ${transport.notes}
+            </li>
+        `;
+        container.appendChild(list);
     }
 
     function setupDailyItinerary() {
         const dailyContainer = document.getElementById('daily-itinerary-container');
         const dailyNavContainer = document.getElementById('daily-nav-container');
-        if (!dailyContainer || !dailyNavContainer || typeof dailyItineraryData === 'undefined') return;
+        if (!dailyContainer || !dailyNavContainer || typeof tripData === 'undefined' || !tripData.itinerary) return;
+
+        // 使用新的資料結構
+        const dailyItineraryData = tripData.itinerary;
 
         dailyItineraryData.forEach(day => {
             const dayElement = document.createElement('div');
@@ -125,10 +230,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupFoodMap() {
         const foodContainer = document.getElementById('food-list-container');
         const filterContainer = document.getElementById('food-filter-container');
-        if (!foodContainer || !filterContainer || typeof foodData === 'undefined') return;
+        if (!foodContainer || !filterContainer || typeof tripData === 'undefined' || !tripData.food) return;
+
+        // 使用新的資料結構
+        const foodData = tripData.food;
 
         // 從 foodData 動態生成篩選按鈕
-        const categories = ['all', ...new Set(foodData.map(item => item.category))];
+        const categories = ['all', ...new Set(foodData.map(item => item.category || '其他'))];
         filterContainer.innerHTML = categories.map(category => {
             const isSelected = category === 'all';
             const text = category === 'all' ? '全部' : category;
@@ -211,6 +319,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setupNavigation();
     setupBudgetChart();
+    setupAccommodation();
+    setupTransport();
     setupDailyItinerary();
     setupFoodMap();
     setupBackToTopButton();
