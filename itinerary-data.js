@@ -66,7 +66,7 @@ const tripData = {
                     description: "在車站享用午餐 (可參考美食地圖中的「鐵板燒 天神內臟」)，並完成劃位(JR Pass)、購買努努雞等任務。",
                     duration: "約 2 小時",
                     transport: "步行",
-                    mapLink: "https://maps.app.goo.gl/tSTLYskd41AEajbv8?g_st=ipc"
+                    mapLink: "https://maps.app.goo.gl/orveDgkH829tuRzw7"
                 },
                 {
                     time: "14:00",
