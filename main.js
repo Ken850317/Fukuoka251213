@@ -44,8 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const budgetData = tripData.budget;
         const jpyRate = budgetData.jpyRate || 4.7;
         let currentCurrency = 'TWD';
-
-        const chartColors = ['#38bdf8', '#3b82f6', '#60a5fa', '#93c5fd', '#0ea5e9'];
+ 
+        // 再次更換為一組對比鮮明的顏色
+        const chartColors = [
+            '#14b8a6', // Teal
+            '#8b5cf6', // Violet
+            '#ec4899', // Pink
+            '#f59e0b', // Amber
+        ];
 
         const chartConfig = {
             type: 'doughnut',
@@ -53,13 +59,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     label: '預算分配',
                     backgroundColor: chartColors,
-                    borderColor: '#ffffff',
-                    borderWidth: 2
+                    borderColor: '#fff', // 區塊邊框顏色
+                    borderWidth: 3,      // 區塊邊框寬度
+                    hoverBorderWidth: 3, // 懸浮時的邊框寬度
+                    hoverOffset: 20      // 懸浮時區塊放大的距離
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                // 調整 cutout 讓圓餅圖更大，環狀更細
+                cutout: '60%',
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -73,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         color: '#ffffff',
                         font: {
                             weight: 'bold',
-                            size: 14,
+                            size: 12, // 縮小字體以容納更多數字
                         },
                         formatter: (value, context) => {
                             const currency = context.chart.options.plugins.datalabels.currency;
@@ -230,12 +240,49 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupFoodMap() {
         const foodContainer = document.getElementById('food-list-container');
         const filterContainer = document.getElementById('food-filter-container');
-        if (!foodContainer || !filterContainer || typeof tripData === 'undefined' || !tripData.food) return;
+        const mapCanvas = document.getElementById('food-map-canvas');
+        if (!foodContainer || !filterContainer || !mapCanvas || typeof tripData === 'undefined' || !tripData.food) return;
 
         // 使用新的資料結構
         const foodData = tripData.food;
 
-        // 從 foodData 動態生成篩選按鈕
+        // --- Google Map 初始化 ---
+        let map;
+        let markers = [];
+        const infoWindow = new google.maps.InfoWindow();
+
+        function initMap() {
+            // 以博多車站為中心點
+            const fukuokaCenter = { lat: 33.590, lng: 130.420 };
+            map = new google.maps.Map(mapCanvas, {
+                center: fukuokaCenter,
+                zoom: 12,
+            });
+            renderMarkers('all');
+        }
+
+        function renderMarkers(category) {
+            // 清除舊標記
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            const filteredData = category === 'all' ? foodData : foodData.filter(item => item.category === category);
+
+            filteredData.forEach(food => {
+                if (!food.lat || !food.lng) return;
+                const marker = new google.maps.Marker({
+                    position: { lat: food.lat, lng: food.lng },
+                    map: map,
+                    title: food.name,
+                });
+                marker.addListener('click', () => {
+                    infoWindow.setContent(`<strong>${food.name}</strong><br>${food.description}`);
+                    infoWindow.open(map, marker);
+                });
+                markers.push(marker);
+            });
+        }
+
         const categories = ['all', ...new Set(foodData.map(item => item.category || '其他'))];
         filterContainer.innerHTML = categories.map(category => {
             const isSelected = category === 'all';
@@ -281,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const category = targetBtn.dataset.category;
             renderFoodList(category);
+            renderMarkers(category); // 同步更新地圖上的標記
 
             filterContainer.querySelectorAll('.food-filter-btn').forEach(b => {
                 b.setAttribute('aria-selected', 'false');
@@ -292,7 +340,12 @@ document.addEventListener('DOMContentLoaded', function() {
             targetBtn.classList.remove('bg-gray-200', 'hover:bg-gray-300');
         });
 
+        // 初始載入
         renderFoodList();
+
+        // 確保 Google Maps API 載入後再初始化地圖
+        // HTML 中的 script 標籤有 async，所以需要這樣處理
+        window.initMap = initMap;
     }
 
     function setupBackToTopButton() {

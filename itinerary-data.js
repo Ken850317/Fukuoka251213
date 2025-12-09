@@ -3,14 +3,13 @@ const tripData = {
     budget: {
         jpyRate: 4.7, // 預估匯率 1 TWD = 4.7 JPY
         items: [
-            { category: '住宿', amount: 38543, label: '住宿' }, // 京都屋 23,366 + 靜鐵PREZIO 15,177
-            { category: '餐飲', amount: 20000, label: '餐飲' },
-            { category: '交通', amount: 12000, label: '交通' }, // JR Pass, 地鐵等
-            { category: '門票與雜支', amount: 8000, label: '門票與雜支' }
+            { category: '住宿', amount: 38543, label: '住宿' }, // TWD 23,366 + TWD 15,177
+            { category: '機票', amount: 72000, label: '機票 (TWD 12,000/人)' },
+            { category: '交通', amount: 18144, label: '當地交通 (JPY)' },
+            { category: '餐飲', amount: 20000, label: '餐飲' }
         ],
         notes: [
-            "機票費用: TWD 12,000 /人 (已付清)",
-            "住宿費用: 京都屋 TWD 23,366, 靜鐵PREZIO TWD 15,177",
+            "住宿費用明細: 京都屋 TWD 23,366, 靜鐵PREZIO TWD 15,177",
             "金流狀態: 11/15 Nash/小陳已支付 ¥12,847 住宿費給阿啾"
         ]
     },
@@ -123,8 +122,8 @@ const tripData = {
                     mapLink: "https://maps.app.goo.gl/Kco2HLEARREGqReE7?g_st=ipc"
                 },
                 {
-                    time: "16:15",
-                    activity: "下午茶：炭劇場 武藏坐",
+                    time: "15:30",
+                    activity: "出發前往下午茶：炭劇場 武藏坐",
                     description: "享受獨特的端爐下午茶體驗 (已預約)。",
                     duration: "約 1.5 小時",
                     transport: "步行10分鐘到博多車站，搭地鐵綠線至天神南站下車，步行3分鐘 (路程約20分鐘)。",
@@ -156,7 +155,7 @@ const tripData = {
                 {
                     time: "09:30",
                     activity: "前往小倉 & 旦過市場",
-                    description: "09:23從博多出發，09:38抵達小倉站，步行十分鐘抵達有「北九州的廚房」之稱的旦過市場享用早餐。",
+                    description: "從博多出發 (09:23班次)，約 09:38 抵達小倉站，步行十分鐘抵達有「北九州的廚房」之稱的旦過市場享用早餐。",
                     duration: "約 2.5 小時",
                     transport: "JR (使用JR Pass)",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Tanga+Market"
@@ -170,9 +169,9 @@ const tripData = {
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Kokura+Castle"
                 },
                 {
-                    time: "16:30",
+                    time: "16:00",
                     activity: "返回博多",
-                    description: "從小倉車站集合，搭乘JR返回博多 (暫定16:34班次，傍晚五點前抵達)。",
+                    description: "從小倉車站集合，搭乘JR返回博多 (可搭 16:34 班次)，傍晚五點前抵達。",
                     duration: "約 1 小時",
                     transport: "JR (使用JR Pass)",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Kokura+Station"
@@ -211,7 +210,7 @@ const tripData = {
                 {
                     time: "17:30",
                     activity: "集合前往福岡機場",
-                    description: "整理行囊，準備搭機返回台灣，結束愉快的社畜解放之旅。",
+                    description: "整理行囊，從飯店集合出發前往機場，準備搭機返回台灣，結束愉快的社畜解放之旅。",
                     duration: "約 3 小時",
                     transport: "地鐵機場線",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Fukuoka+Airport"
@@ -225,36 +224,56 @@ const tripData = {
         {
             name: "努努雞",
             category: "特產",
+            lat: 33.5898,
+            lng: 130.4208,
             description: "冰著吃也美味的炸雞，福岡特色伴手禮。",
             mapLink: "https://maps.app.goo.gl/ZXq8sLeEFiHetFxz7?g_st=ipc"
         },
         {
+            name: "鐵板燒 天神內臟 博多一番街",
+            category: "鐵板燒",
+            lat: 33.5890,
+            lng: 130.4205,
+            description: "位於博多車站內的平價美味鐵板燒。",
+            mapLink: "https://maps.app.goo.gl/orveDgkH829tuRzw7"
+        },
+        {
             name: "炭劇場 武藏坐",
             category: "甜點",
+            lat: 33.5878,
+            lng: 130.4025,
             description: "體驗獨特的日式端爐下午茶。",
             mapLink: "https://maps.app.goo.gl/DrmKzv1ZQVcccFXN6?g_st=ipc"
         },
         {
             name: "藥院燒肉NIKUICHI 博多店",
             category: "燒肉",
+            lat: 33.5851,
+            lng: 130.4153,
             description: "提供高品質佐賀牛等肉品的美味燒肉店。",
             mapLink: "https://maps.app.goo.gl/dzvtJJwMFXHGZ5EY7?g_st=ipc"
         },
         {
             name: "旦過市場",
             category: "海鮮",
+            lat: 33.8823,
+            lng: 130.8781,
             description: "北九州的廚房，可以品嚐到新鮮的海產與當地小吃。",
             mapLink: "https://www.google.com/maps/search/?api=1&query=Tanga+Market"
         },
         {
             name: "座離宮 博多本店",
             category: "日式料理",
+            lat: 33.5932,
+            lng: 130.4171,
             description: "氣氛佳的精緻日式料理餐廳。",
             mapLink: "https://maps.app.goo.gl/KcAWPPDG5tcGNjzc9?g_st=ipc"
         },
         {
             name: "中洲屋台",
             category: "屋台",
+            lat: 33.5919,
+            lng: 130.4065,
             description: "福岡夜生活的象徵，體驗道地的路邊攤文化。",
             mapLink: "https://maps.app.goo.gl/8ZyRZnCr6UXntLuU9?g_st=ipc"
         }
