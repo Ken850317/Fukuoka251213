@@ -54,7 +54,7 @@ const dailyItineraryData = [
             {
                 time: "參考",
                 activity: "長崎組路線參考",
-                description: "10:01出發→眼鏡橋→原爆資料館→稻佐山夜景→21:18返回武雄。",
+                description: "10:01出發10:32抵達。藍線觀光通下車吃午餐逛商店街。13:00眼鏡橋集合，綠線到西浜町轉藍線到原爆資料館（半小時），週邊有原爆彈落遺址、平和公園。16:00藍線前往體育場城南站轉稻佐山搭纜車上山看夜景，18:00下山回長崎車站吃晚餐。21:18啟程回武雄（最後班次22:10）。",
                 duration: "-",
                 transport: "JR、長崎路面電車",
                 mapLink: "https://www.google.com/maps/search/?api=1&query=Mount+Inasa"
@@ -79,15 +79,15 @@ const dailyItineraryData = [
                 activity: "下午茶：炭劇場 武藏坐",
                 description: "享受獨特的端爐下午茶體驗 (已預約)。",
                 duration: "約 1.5 小時",
-                transport: "地鐵綠線至天神南站後步行",
+                transport: "步行10分鐘到博多車站，搭地鐵綠線至天神南站下車，步行3分鐘 (路程約20分鐘)。",
                 mapLink: "https://maps.app.goo.gl/DrmKzv1ZQVcccFXN6?g_st=ipc"
             },
             {
-                time: "18:00",
+                time: "下午",
                 activity: "自由活動",
                 description: "在天神或博多地區自由逛街購物。",
-                duration: "約 4 小時",
-                transport: "步行/地鐵",
+                duration: "至 22:00 前",
+                transport: "步行/地鐵", // 保持原樣，因為更詳細的交通資訊是針對特定地點的
                 mapLink: "https://www.google.com/maps/search/?api=1&query=Tenjin"
             },
             {
@@ -102,13 +102,13 @@ const dailyItineraryData = [
     },
     {
         day: 4,
-        theme: "北九州探險：小倉與門司港",
-        date: "12/16 (一)",
+        theme: "北九州探險：旦過市場與小倉城",
+        date: "12/16 (六)",
         schedule: [
             {
                 time: "09:30",
                 activity: "前往小倉 & 旦過市場",
-                description: "搭乘JR前往小倉，在有「北九州的廚房」之稱的旦過市場享用早餐。",
+                description: "09:23從博多出發，09:38抵達小倉站，步行十分鐘抵達有「北九州的廚房」之稱的旦過市場享用早餐。",
                 duration: "約 2.5 小時",
                 transport: "JR (使用JR Pass)",
                 mapLink: "https://www.google.com/maps/search/?api=1&query=Tanga+Market"
@@ -116,7 +116,7 @@ const dailyItineraryData = [
             {
                 time: "12:00",
                 activity: "小倉城周邊散策",
-                description: "參觀小倉城及其周邊的八坂神社、松本清張紀念館等景點。",
+                description: "12:00集合，步行10分鐘前往小倉城，參觀其周邊的八坂神社、松本清張紀念館等景點。",
                 duration: "約 4 小時",
                 transport: "步行",
                 mapLink: "https://www.google.com/maps/search/?api=1&query=Kokura+Castle"
@@ -124,7 +124,7 @@ const dailyItineraryData = [
             {
                 time: "16:30",
                 activity: "返回博多",
-                description: "從小倉車站搭乘JR返回博多。",
+                description: "從小倉車站搭乘JR返回博多 (暫定16:34班次，傍晚五點前抵達)。",
                 duration: "約 1 小時",
                 transport: "JR (使用JR Pass)",
                 mapLink: "https://www.google.com/maps/search/?api=1&query=Kokura+Station"
@@ -133,8 +133,8 @@ const dailyItineraryData = [
                 time: "18:00",
                 activity: "晚餐：座離宮 博多本店",
                 description: "享用精緻的日式料理晚餐。",
-                duration: "約 2 小時",
-                transport: "地鐵",
+                duration: "約 2 小時", // 保持原樣，因為更詳細的交通資訊是針對特定地點的
+                transport: "從博多車站搭地鐵機場線步行9分鐘，或地鐵七隈線步行12分鐘 (路程約20分鐘)。",
                 mapLink: "https://maps.app.goo.gl/KcAWPPDG5tcGNjzc9?g_st=ipc"
             },
             {
@@ -155,10 +155,10 @@ const dailyItineraryData = [
             {
                 time: "白天",
                 activity: "自由活動 & 購物",
-                description: "最後的購物衝刺時間，可以在博多車站、運河城或天神地區購買伴手禮。",
+                description: "最後的購物衝刺時間，可前往Torai Amu Sankakuya Yakuinten (織毛線手工材料店)，或在博多車站、運河城、天神地區購買伴手禮。",
                 duration: "半天",
                 transport: "步行/地鐵",
-                mapLink: "https://www.google.com/maps/search/?api=1&query=Canal+City+Hakata"
+                mapLink: "https://maps.app.goo.gl/bwbQFjZHiE1bpxHa6"
             },
             {
                 time: "17:30",

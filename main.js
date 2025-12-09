@@ -127,6 +127,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const filterContainer = document.getElementById('food-filter-container');
         if (!foodContainer || !filterContainer || typeof foodData === 'undefined') return;
 
+        // 從 foodData 動態生成篩選按鈕
+        const categories = ['all', ...new Set(foodData.map(item => item.category))];
+        filterContainer.innerHTML = categories.map(category => {
+            const isSelected = category === 'all';
+            const text = category === 'all' ? '全部' : category;
+            const selectedClasses = 'bg-blue-500 text-white';
+            const defaultClasses = 'bg-gray-200 hover:bg-gray-300';
+            return `
+                <button 
+                    class="food-filter-btn py-1 px-3 rounded-full text-sm ${isSelected ? selectedClasses : defaultClasses}" 
+                    data-category="${category}" 
+                    aria-selected="${isSelected}">
+                    ${text}
+                </button>`;
+        }).join('');
+
         const renderFoodList = (category = 'all') => {
             foodContainer.innerHTML = '';
             const filteredData = category === 'all' ? foodData : foodData.filter(item => item.category === category);
