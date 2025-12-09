@@ -40,7 +40,7 @@
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3">旅遊資訊</h3>
                     <ul class="space-y-2 text-gray-700">
-                        <li><strong>📍 地點：</strong>日本福岡、佐賀 (武雄)</li>
+                        <li><strong>📍 地點：</strong>日本福岡、佐賀、武雄</li>
                         <li><strong>📅 日期：</strong>2024/12/13 - 2024/12/17 (五天四夜)</li>
                         <li><strong>👥 成員：</strong>社畜們</li>
                         <li><strong>✈️ 航班：</strong>中華航空 CI110 / CI117</li>
@@ -101,6 +101,9 @@
         <!-- Section: 每日行程 -->
         <section id="daily" class="content-section">
             <h2 class="text-2xl font-bold mb-6 border-l-4 border-blue-500 pl-3">每日行程</h2>
+            <div id="daily-nav-container" class="mb-8 flex flex-wrap gap-2">
+                <!-- JS 會動態生成每日導覽按鈕於此 -->
+            </div>
             <div id="daily-itinerary-container" class="space-y-12">
                 <!-- JS 會動態生成內容於此 -->
             </div>
@@ -144,11 +147,14 @@
 
     <footer class="text-center py-6 mt-8 bg-white border-t">
         <p class="text-sm text-gray-500">福岡25" 社畜自由行 | Designed by Gemini Code Assist</p>
-        <p class="text-xs text-gray-400 mt-1">
-            航班: 臺灣桃園機場(CI 110) 12/13 06:50 → 福岡 10:00 |
-            福岡(CI 117) 12/17 20:35 → 臺灣桃園機場 22:20
-        </p>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top-btn" title="回到頂部" class="hidden fixed bottom-8 right-8 bg-blue-500 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-opacity duration-300 z-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+        </svg>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="./itinerary-data.js" defer></script>

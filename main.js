@@ -72,12 +72,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function setupDailyItinerary() {
         const dailyContainer = document.getElementById('daily-itinerary-container');
-        if (!dailyContainer || typeof dailyItineraryData === 'undefined') return;
+        const dailyNavContainer = document.getElementById('daily-nav-container');
+        if (!dailyContainer || !dailyNavContainer || typeof dailyItineraryData === 'undefined') return;
 
         dailyItineraryData.forEach(day => {
             const dayElement = document.createElement('div');
+            // 為每日行程區塊加上 ID，方便錨點跳轉
+            dayElement.id = `day-${day.day}`;
+            dayElement.className = 'pt-2'; // 增加一點上邊距，避免跳轉時標題太貼近頂部
             dayElement.innerHTML = `
-                <h3 class="text-xl font-bold mb-4 text-blue-600">Day ${day.day} (${day.date}): ${day.theme}</h3>
+                <h3 class="text-xl font-bold mb-4 text-blue-600">Day ${day.day} ${day.date}: ${day.theme}</h3>
                 <ol class="space-y-8">
                     ${day.schedule.map(item => `
                         <li class="timeline-item pb-8">
@@ -101,6 +105,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 </ol>
             `;
             dailyContainer.appendChild(dayElement);
+
+            // 建立對應的日期導覽按鈕
+            const dayBtn = document.createElement('a');
+            dayBtn.href = `#day-${day.day}`;
+            dayBtn.className = 'daily-nav-btn bg-gray-200 hover:bg-blue-500 hover:text-white transition-colors duration-200 py-1 px-4 rounded-full text-sm font-semibold';
+            dayBtn.textContent = `Day ${day.day}`;
+            dailyNavContainer.appendChild(dayBtn);
+
+            // 增加平滑滾動效果
+            dayBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetElement = document.getElementById(this.getAttribute('href').substring(1));
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
         });
     }
 
@@ -153,8 +171,31 @@ document.addEventListener('DOMContentLoaded', function() {
         renderFoodList();
     }
 
+    function setupBackToTopButton() {
+        const btn = document.getElementById('back-to-top-btn');
+        if (!btn) return;
+
+        // 根據滾動位置顯示或隱藏按鈕
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // 向下滾動超過 300px 時顯示
+                btn.classList.remove('hidden');
+            } else {
+                btn.classList.add('hidden');
+            }
+        });
+
+        // 點擊按鈕後平滑滾動到頂部
+        btn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
     setupNavigation();
     setupBudgetChart();
     setupDailyItinerary();
     setupFoodMap();
+    setupBackToTopButton();
 });
