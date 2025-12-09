@@ -241,48 +241,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const foodContainer = document.getElementById('food-list-container');
         const filterContainer = document.getElementById('food-filter-container');
         const mapCanvas = document.getElementById('food-map-canvas');
-        if (!foodContainer || !filterContainer || !mapCanvas || typeof tripData === 'undefined' || !tripData.food) return;
+        if (!foodContainer || !filterContainer || !mapCanvas || typeof tripData === 'undefined' || !tripData.food) {
+            console.error("Food map section elements not found.");
+            return;
+        }
 
-        // 使用新的資料結構
         const foodData = tripData.food;
-
-        // --- Google Map 初始化 ---
         let map;
         let markers = [];
         const infoWindow = new google.maps.InfoWindow();
 
-        function initMap() {
-            // 以博多車站為中心點
-            const fukuokaCenter = { lat: 33.590, lng: 130.420 };
-            map = new google.maps.Map(mapCanvas, {
-                center: fukuokaCenter,
-                zoom: 12,
-            });
-            renderMarkers('all');
-        }
-
-        function renderMarkers(category) {
-            // 清除舊標記
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
-
-            const filteredData = category === 'all' ? foodData : foodData.filter(item => item.category === category);
-
-            filteredData.forEach(food => {
-                if (!food.lat || !food.lng) return;
-                const marker = new google.maps.Marker({
-                    position: { lat: food.lat, lng: food.lng },
-                    map: map,
-                    title: food.name,
-                });
-                marker.addListener('click', () => {
-                    infoWindow.setContent(`<strong>${food.name}</strong><br>${food.description}`);
-                    infoWindow.open(map, marker);
-                });
-                markers.push(marker);
-            });
-        }
-
+        // 1. 動態生成篩選按鈕
         const categories = ['all', ...new Set(foodData.map(item => item.category || '其他'))];
         filterContainer.innerHTML = categories.map(category => {
             const isSelected = category === 'all';
@@ -298,13 +267,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 </button>`;
         }).join('');
 
+        // 2. 渲染美食卡片列表的函式
         const renderFoodList = (category = 'all') => {
             foodContainer.innerHTML = '';
             const filteredData = category === 'all' ? foodData : foodData.filter(item => item.category === category);
 
             filteredData.forEach(food => {
                 const foodCard = document.createElement('div');
-                foodCard.className = 'food-card bg-white rounded-lg shadow overflow-hidden transition-transform duration-300 hover:scale-105';
+                foodCard.className = 'food-card bg-white rounded-lg shadow overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer';
                 foodCard.dataset.category = food.category;
                 foodCard.innerHTML = `
                     <div class="p-5">
@@ -319,17 +289,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 `;
                 foodContainer.appendChild(foodCard);
+
+                // 點擊卡片時，觸發地圖標記的點擊事件
+                foodCard.addEventListener('click', () => {
+                    const correspondingMarker = markers.find(m => m.title === food.name);
+                    if (correspondingMarker) {
+                        google.maps.event.trigger(correspondingMarker, 'click');
+                        map.panTo(correspondingMarker.getPosition()); // 將地圖中心平移到標記上
+                    }
+                });
             });
         };
 
+        // 3. 篩選按鈕的點擊事件
         filterContainer.addEventListener('click', (e) => {
             const targetBtn = e.target.closest('.food-filter-btn');
             if (!targetBtn) return;
 
             const category = targetBtn.dataset.category;
             renderFoodList(category);
-            renderMarkers(category); // 同步更新地圖上的標記
 
+            // 同步更新地圖標記的可見性
+            markers.forEach(marker => {
+                marker.setVisible(category === 'all' || marker.category === category);
+            });
+
+            // 更新按鈕樣式
             filterContainer.querySelectorAll('.food-filter-btn').forEach(b => {
                 b.setAttribute('aria-selected', 'false');
                 b.classList.remove('bg-blue-500', 'text-white');
@@ -340,12 +325,53 @@ document.addEventListener('DOMContentLoaded', function() {
             targetBtn.classList.remove('bg-gray-200', 'hover:bg-gray-300');
         });
 
-        // 初始載入
-        renderFoodList();
+        // 4. Google Map 初始化函式 (將由 API 回呼觸發)
+        function initMap() {
+            // 以博多車站為中心點
+            const fukuokaCenter = { lat: 33.590, lng: 130.420 };
+            map = new google.maps.Map(mapCanvas, {
+                center: fukuokaCenter,
+                zoom: 12,
+                mapTypeControl: false,
+                streetViewControl: false,
+            });
 
-        // 確保 Google Maps API 載入後再初始化地圖
-        // HTML 中的 script 標籤有 async，所以需要這樣處理
-        window.initMap = initMap;
+            // 建立所有標記
+            foodData.forEach(food => {
+                // *** 修正點：使用 food.coords.lat 和 food.coords.lng ***
+                if (!food.coords || !food.coords.lat || !food.coords.lng) return;
+
+                const marker = new google.maps.Marker({
+                    position: food.coords,
+                    map: map,
+                    title: food.name,
+                    category: food.category, // 將分類資訊存入標記中
+                    animation: google.maps.Animation.DROP, // 加入動畫效果
+                });
+
+                // 為每個標記加上點擊事件
+                marker.addListener('click', () => {
+                    const content = `
+                        <div class="p-1 font-sans">
+                            <h4 class="font-bold text-md">${food.name}</h4>
+                            <p class="text-gray-600 mt-1">${food.description}</p>
+                            <a href="${food.mapLink}" target="_blank" class="text-blue-600 hover:underline text-sm">在 Google Maps 中打開</a>
+                        </div>`;
+                    infoWindow.setContent(content);
+                    infoWindow.open(map, marker);
+                });
+                markers.push(marker);
+            });
+
+            // 地圖初始化完成後，渲染初始的卡片列表
+            renderFoodList();
+        }
+
+        // 5. 將 initMap 函式掛載到 window 物件上，
+        //    這樣 HTML 中的 <script> 標籤才能透過 callback=initMap 找到並執行它。
+        if (typeof window.initMap !== 'function') {
+            window.initMap = initMap;
+        }
     }
 
     function setupBackToTopButton() {
