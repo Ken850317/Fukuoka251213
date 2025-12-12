@@ -415,10 +415,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function setupHeaderBackground() {
+        const header = document.getElementById('main-header');
+        if (!header) return;
+
+        const images = [
+            'https://images.unsplash.com/photo-1584486188544-dc52545d1495?q=80&w=1974&auto=format&fit=crop', // 中洲屋台
+            'https://images.unsplash.com/photo-1628367134344-3789402439a4?q=80&w=2070&auto=format&fit=crop', // 福岡塔與海灘
+            'https://images.unsplash.com/photo-1593228173454-7d5865c34347?q=80&w=2070&auto=format&fit=crop', // 大濠公園
+            'https://images.unsplash.com/photo-1613589542393-579653c51145?q=80&w=1974&auto=format&fit=crop', // 櫛田神社
+            'https://images.unsplash.com/photo-1633481783433-7f54367335c0?q=80&w=2070&auto=format&fit=crop'  // 小倉城
+        ];
+
+        const bgContainer = document.createElement('div');
+        bgContainer.className = 'header-bg-container';
+
+        images.forEach((imgUrl, index) => {
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'header-bg-image';
+            imgDiv.style.backgroundImage = `url(${imgUrl})`;
+            if (index === 0) {
+                imgDiv.style.opacity = '1'; // 預設顯示第一張
+            }
+            bgContainer.appendChild(imgDiv);
+        });
+
+        header.prepend(bgContainer);
+
+        let currentImageIndex = 0;
+        const imageElements = bgContainer.querySelectorAll('.header-bg-image');
+
+        setInterval(() => {
+            imageElements[currentImageIndex].style.opacity = '0'; // 淡出目前圖片
+            currentImageIndex = (currentImageIndex + 1) % images.length; // 計算下一張圖片的索引
+            imageElements[currentImageIndex].style.opacity = '1'; // 淡入下一張圖片
+        }, 20000); // 每 20 秒更換一次
+    }
+
     setupNavigation();
     setupBudgetChart();
     setupAccommodation();
     setupTransport();
     setupDailyItinerary();
     setupBackToTopButton();
+    setupHeaderBackground();
 });

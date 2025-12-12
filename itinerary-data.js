@@ -220,7 +220,7 @@ const tripData = {
         { name: "座離宮 博多本店", category: "正餐", description: "Day 4 晚餐，氣氛佳的居酒屋。", mapLink: "https://maps.app.goo.gl/KcAWPPDG5tcGNjzc9", coords: { lat: 33.5931, lng: 130.4181 } },
         { name: "中洲屋台", category: "宵夜", description: "Day 4 宵夜，體驗福岡道地路邊攤文化。", mapLink: "https://maps.app.goo.gl/8ZyRZnCr6UXntLuU9", coords: { lat: 33.5925, lng: 130.4075 } },
         // 景點
-        { name: "武雄溫泉樓門", category: "景點", description: "Day 1 景點，武雄溫泉的象徵性建築。", mapLink: "https://maps.app.goo.gl/aY32x2B8GvJjYj2x5", coords: { lat: 33.1937, lng: 130.0214 } },
+        { name: "武雄溫泉樓門", category: "景點", description: "Day 1 景點，武雄溫泉的象徵性建築。", mapLink: "https://www.google.com/maps/search/?api=1&query=33.1937,130.0214", coords: { lat: 33.1937, lng: 130.0214 } },
         { name: "武雄市圖書館", category: "景點", description: "Day 1 景點，結合圖書館與蔦屋書店的複合式空間。", mapLink: "https://maps.app.goo.gl/8GgL2YhZkL3yW8yq9", coords: { lat: 33.1856, lng: 130.0196 } },
         { name: "豪斯登堡", category: "景點", description: "Day 2 路線，重現荷蘭街景的廣大主題樂園。", mapLink: "https://maps.app.goo.gl/V5iNqW8oBqjYj8aY8", coords: { lat: 33.0871, lng: 129.7871 } },
         { name: "小倉城", category: "景點", description: "Day 4 景點，北九州市的著名地標。", mapLink: "https://maps.app.goo.gl/f9xYgY7Zz6YjYj9x6", coords: { lat: 33.8856, lng: 130.8756 } }
