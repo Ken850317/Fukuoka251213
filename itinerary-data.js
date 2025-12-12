@@ -1,17 +1,16 @@
 const tripData = {
     // 預算與金流
     budget: {
-        title: "費用明細",
+        title: "費用明細 (每人預估)",
         jpyRate: 4.7, // 預估匯率 1 TWD ≈ 4.7 JPY (用於換算參考)
         items: [
-            { category: '住宿', description: '京都屋 + 靜鐵PREZIO', amount: 38543, currency: 'TWD' },
+            { category: '住宿', description: '京都屋 + 靜鐵PREZIO', amount: 6424, currency: 'TWD' },
             { category: '交通', description: '機票 (TPE ⇄ FUK)', amount: 12000, currency: 'TWD' },
-            { category: '交通', description: '日本國內交通 (JR Pass, 地鐵等)', amount: 18144, currency: 'TWD' },
+            { category: '交通', description: '日本國內交通 (JR Pass, 地鐵等)', amount: 3024, currency: 'TWD' },
             { category: '餐飲', description: '預估餐飲費', amount: 20000, currency: 'JPY' }
         ],
         notes: [
-            "所有費用為「每人」預估金額。",
-            "住宿費用 TWD 38,543 (京都屋 TWD 23,366 + 靜鐵PREZIO TWD 15,177) 已付清。",
+            "住宿費用 TWD 38,543 (京都屋 TWD 23,366 + 靜鐵PREZIO TWD 15,177) 為六人總額，已付清。",
             "機票費用 TWD 12,000 已付清。",
             "金流狀態: 11/15 Nash/小陳已支付 ¥12,847 住宿費給阿啾"
         ]
@@ -21,13 +20,13 @@ const tripData = {
     accommodation: [
         {
             name: "百年溫泉旅館 京都屋",
-            dates: "12/13 - 12/15",
+            dates: "12/13 - 12/15 (2晚)",
             mapLink: "https://maps.app.goo.gl/MBTCPWAJGxtcnSKu8?g_st=ipc",
             description: "位於武雄溫泉，體驗傳統日式溫泉旅館。"
         },
         {
             name: "博多站前靜鐵PREZIO飯店",
-            dates: "12/15 - 12/17",
+            dates: "12/15 - 12/17 (2晚)",
             mapLink: "https://maps.app.goo.gl/Kco2HLEARREGqReE7?g_st=ipc",
             description: "鄰近博多車站，交通便利的現代化飯店。"
         }
@@ -40,7 +39,7 @@ const tripData = {
             return: "福岡 (FUK) CI 117 → 臺灣桃園機場 (TPE) | 12/17 20:35 - 22:20"
         },
         passes: [
-            "九州3日JR Pass (主要使用於 Day 2, 3, 4)",
+            "九州3日JR Pass (北九州)",
             "福岡機場 ⇄ 博多車站 地鐵乘車券"
         ],
         notes: "建議準備 SUICA 或 ICOCA 等全國通用的 IC 卡，用於搭乘 JR Pass 範圍外的交通工具。"
@@ -57,7 +56,7 @@ const tripData = {
                     time: "10:00",
                     activity: "抵達福岡機場 (FUK)",
                     description: "辦理入境手續，準備前往博多車站。",
-                    duration: "約 1.5 小時",
+                    duration: "約 1.5 小時 (含入境)",
                     transport: "地鐵機場線",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Fukuoka+Airport"
                 },
@@ -65,7 +64,7 @@ const tripData = {
                     time: "11:30",
                     activity: "博多車站午餐 & 任務",
                     description: "在車站享用午餐 (可參考美食地圖中的「鐵板燒 天神內臟」)，並完成劃位(JR Pass)、購買努努雞等任務。",
-                    duration: "約 2 小時",
+                    duration: "約 2.5 小時",
                     transport: "步行",
                     mapLink: "https://maps.app.goo.gl/orveDgkH829tuRzw7"
                 },
@@ -73,14 +72,14 @@ const tripData = {
                     time: "14:00",
                     activity: "前往武雄溫泉 & Check-in",
                     description: "搭乘JR特急列車前往武雄溫泉，並入住飯店。",
-                    duration: "約 1.5 小時",
+                    duration: "約 2 小時 (含交通)",
                     transport: "JR特急列車",
                     mapLink: "https://maps.app.goo.gl/MBTCPWAJGxtcnSKu8?g_st=ipc"
                 },
                 {
                     time: "16:00",
                     activity: "武雄市區漫遊",
-                    description: "自由探索武雄圖書館、御船山樂園、武雄溫泉樓門等景點。",
+                    description: "自由探索武雄圖書館、武雄溫泉樓門等景點。",
                     duration: "自由安排",
                     transport: "步行",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Takeo+Onsen+Romon"
@@ -95,16 +94,16 @@ const tripData = {
                 {
                     time: "全日",
                     activity: "分組一日遊",
-                    description: "各組根據自己的JR Pass路線進行一日遊 (可選長崎、佐賀、豪斯登堡等)，晚上返回武雄溫泉。",
+                    description: "使用JR Pass進行一日遊 (可選長崎、佐賀、豪斯登堡等)，晚上返回武雄溫泉。",
                     duration: "全天",
                     transport: "JR (使用JR Pass)",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Nagasaki"
                 },
                 {
-                    time: "長崎組",
+                    time: "參考",
                     activity: "長崎組路線參考",
-                    description: "10:01出發10:32抵達。藍線觀光通下車吃午餐逛商店街。13:00眼鏡橋集合，綠線到西浜町轉藍線到原爆資料館（半小時），週邊有原爆彈落遺址、平和公園。16:00藍線前往體育場城南站轉稻佐山搭纜車上山看夜景，18:00下山回長崎車站吃晚餐。21:18啟程回武雄（最後班次22:10）。",
-                    duration: "-",
+                    description: "10:01出發10:32抵達。藍線觀光通下車吃午餐逛商店街。13:00眼鏡橋集合，綠線到西浜町轉藍線到原爆資料館，週邊有平和公園。16:00藍線前往體育場城南站轉稻佐山搭纜車看夜景，18:00下山回長崎車站吃晚餐。21:18啟程回武雄（末班車22:10）。",
+                    duration: "全天",
                     transport: "JR、長崎路面電車",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Mount+Inasa"
                 }
@@ -118,8 +117,8 @@ const tripData = {
                 {
                     time: "上午",
                     activity: "返回博多 & 飯店 Check-in",
-                    description: "在武雄用完早餐後，搭乘JR返回博多，並在15:30前完成飯店入住。",
-                    duration: "約 3-4 小時",
+                    description: "在武雄用完早餐後，搭乘JR返回博多，並在 15:30 前完成飯店入住。",
+                    duration: "至 15:30",
                     transport: "JR、地鐵",
                     mapLink: "https://maps.app.goo.gl/Kco2HLEARREGqReE7?g_st=ipc"
                 },
@@ -135,7 +134,7 @@ const tripData = {
                     time: "下午",
                     activity: "自由活動",
                     description: "在天神或博多地區自由逛街購物。",
-                    duration: "至 22:00 前",
+                    duration: "至 22:00",
                     transport: "步行/地鐵", // 保持原樣，因為更詳細的交通資訊是針對特定地點的
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Tenjin"
                 },
@@ -157,7 +156,7 @@ const tripData = {
                 {
                     time: "09:30",
                     activity: "前往小倉 & 旦過市場",
-                    description: "09:23從博多出發，09:38抵達小倉站，步行十分鐘抵達有「北九州的廚房」之稱的旦過市場享用早餐。",
+                    description: "從博多出發，抵達小倉站後步行至有「北九州的廚房」之稱的旦過市場享用早餐。",
                     duration: "約 2.5 小時",
                     transport: "JR (使用JR Pass)",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Tanga+Market"
@@ -165,7 +164,7 @@ const tripData = {
                 {
                     time: "12:00",
                     activity: "小倉城周邊散策",
-                    description: "12:00集合，步行10分鐘前往小倉城，參觀其周邊的八坂神社、松本清張紀念館等景點。",
+                    description: "集合後前往小倉城，參觀其周邊的八坂神社等景點。",
                     duration: "約 4 小時",
                     transport: "步行",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Kokura+Castle"
@@ -173,7 +172,7 @@ const tripData = {
                 {
                     time: "16:30",
                     activity: "返回博多",
-                    description: "從小倉車站集合，搭乘JR返回博多 (暫定16:34班次，傍晚五點前抵達)。",
+                    description: "從小倉車站集合，搭乘JR返回博多 (傍晚五點前抵達)。",
                     duration: "約 1 小時",
                     transport: "JR (使用JR Pass)",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=Kokura+Station"
@@ -204,14 +203,14 @@ const tripData = {
                 {
                     time: "白天",
                     activity: "自由活動 & 購物",
-                    description: "最後的購物衝刺時間，可前往Torai Amu Sankakuya Yakuinten (織毛線手工材料店)，或在博多車站、運河城、天神地區購買伴手禮。",
-                    duration: "半天",
+                    description: "最後的購物衝刺時間，可前往 Torai Amu Sankakuya Yakuinten (手工材料店)，或在博多車站、運河城、天神地區購買伴手禮。",
+                    duration: "至 17:30",
                     transport: "步行/地鐵",
                     mapLink: "https://maps.app.goo.gl/bwbQFjZHiE1bpxHa6"
                 },
                 {
                     time: "17:30",
-                    activity: "集合前往福岡機場",
+                    activity: "集合前往機場",
                     description: "整理行囊，準備搭機返回台灣，結束愉快的社畜解放之旅。",
                     duration: "約 3 小時",
                     transport: "地鐵機場線",
@@ -234,7 +233,7 @@ const tripData = {
             name: "努努雞",
             category: "特產",
             description: "冰著吃也美味的炸雞，福岡特色伴手禮。",
-            mapLink: "https://www.google.com/maps/search/?api=1&query=努努雞+博多",
+            mapLink: "https://maps.app.goo.gl/ZXq8sLeEFiHetFxz7?g_st=ipc",
             coords: { lat: 33.5898, lng: 130.4206 } // 博多車站內
         },
         {
@@ -242,13 +241,13 @@ const tripData = {
             category: "甜點",
             description: "體驗獨特的日式端爐下午茶。",
             mapLink: "https://www.google.com/maps/search/?api=1&query=炭劇場+武藏坐",
-            coords: { lat: 33.5878, lng: 130.3999 }
+            coords: { lat: 33.5878, lng: 130.4000 }
         },
         {
             name: "藥院燒肉NIKUICHI 博多店",
             category: "燒肉",
             description: "提供高品質佐賀牛等肉品的美味燒肉店。",
-            mapLink: "https://www.google.com/maps/search/?api=1&query=藥院燒肉NIKUICHI+博多店",
+            mapLink: "https://maps.app.goo.gl/dzvtJJwMFXHGZ5EY7?g_st=ipc",
             coords: { lat: 33.5851, lng: 130.4193 }
         },
         {
@@ -262,14 +261,14 @@ const tripData = {
             name: "座離宮 博多本店",
             category: "日式料理",
             description: "氣氛佳的精緻日式料理餐廳。",
-            mapLink: "https://www.google.com/maps/search/?api=1&query=座離宮+博多本店",
+            mapLink: "https://maps.app.goo.gl/KcAWPPDG5tcGNjzc9?g_st=ipc",
             coords: { lat: 33.5933, lng: 130.4151 }
         },
         {
             name: "中洲屋台",
             category: "屋台",
             description: "福岡夜生活的象徵，體驗道地的路邊攤文化。",
-            mapLink: "https://www.google.com/maps/search/?api=1&query=中洲屋台",
+            mapLink: "https://maps.app.goo.gl/8ZyRZnCr6UXntLuU9?g_st=ipc",
             coords: { lat: 33.5910, lng: 130.4059 }
         }
     ]
