@@ -1,16 +1,18 @@
 const tripData = {
     // 預算與金流
     budget: {
-        jpyRate: 4.7, // 預估匯率 1 TWD = 4.7 JPY
+        title: "費用明細",
+        jpyRate: 4.7, // 預估匯率 1 TWD ≈ 4.7 JPY (用於換算參考)
         items: [
-            { category: '住宿', amount: 38543, label: '住宿' }, // 京都屋 23,366 + 靜鐵PREZIO 15,177
-            { category: '餐飲', amount: 20000, label: '餐飲' },
-            { category: '交通', amount: 12000, label: '交通' }, // JR Pass, 地鐵等
-            { category: '門票與雜支', amount: 8000, label: '門票與雜支' }
+            { category: '住宿', description: '京都屋 + 靜鐵PREZIO', amount: 38543, currency: 'TWD' },
+            { category: '交通', description: '機票 (TPE ⇄ FUK)', amount: 12000, currency: 'TWD' },
+            { category: '交通', description: '日本國內交通 (JR Pass, 地鐵等)', amount: 18144, currency: 'TWD' },
+            { category: '餐飲', description: '預估餐飲費', amount: 20000, currency: 'JPY' }
         ],
         notes: [
-            "機票費用: TWD 12,000 /人 (已付清)",
-            "住宿費用: 京都屋 TWD 23,366, 靜鐵PREZIO TWD 15,177",
+            "所有費用為「每人」預估金額。",
+            "住宿費用 TWD 38,543 (京都屋 TWD 23,366 + 靜鐵PREZIO TWD 15,177) 已付清。",
+            "機票費用 TWD 12,000 已付清。",
             "金流狀態: 11/15 Nash/小陳已支付 ¥12,847 住宿費給阿啾"
         ]
     },
@@ -21,13 +23,13 @@ const tripData = {
             name: "百年溫泉旅館 京都屋",
             dates: "12/13 - 12/15",
             mapLink: "https://maps.app.goo.gl/MBTCPWAJGxtcnSKu8?g_st=ipc",
-            description: "位於武雄溫泉，體驗傳統日式溫泉旅館。總費用: TWD 23,366"
+            description: "位於武雄溫泉，體驗傳統日式溫泉旅館。"
         },
         {
             name: "博多站前靜鐵PREZIO飯店",
             dates: "12/15 - 12/17",
             mapLink: "https://maps.app.goo.gl/Kco2HLEARREGqReE7?g_st=ipc",
-            description: "鄰近博多車站，交通便利的現代化飯店。總費用: TWD 15,177"
+            description: "鄰近博多車站，交通便利的現代化飯店。"
         }
     ],
 
@@ -41,8 +43,7 @@ const tripData = {
             "九州3日JR Pass (主要使用於 Day 2, 3, 4)",
             "福岡機場 ⇄ 博多車站 地鐵乘車券"
         ],
-        notes: "建議準備 SUICA 或 ICOCA 等全國通用的 IC 卡，用於搭乘 JR Pass 範圍外的交通工具。",
-        cost: "日本國內交通總費用: JPY 18,144"
+        notes: "建議準備 SUICA 或 ICOCA 等全國通用的 IC 卡，用於搭乘 JR Pass 範圍外的交通工具。"
     },
 
     // 每日行程
