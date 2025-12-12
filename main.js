@@ -343,13 +343,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // 使用新的資料結構
         const dailyItineraryData = tripData.itinerary;
 
-        // 預設的天氣預報資料 (佔位用)
+        // 預設的詳細天氣預報資料 (佔位用)
         const weatherForecasts = [
-            { icon: '☀️', temp: '12°C / 5°C', description: '晴朗' },
-            { icon: '☁️', temp: '10°C / 4°C', description: '多雲' },
-            { icon: '🌦️', temp: '11°C / 6°C', description: '偶有陣雨' },
-            { icon: '☀️', temp: '13°C / 7°C', description: '晴時多雲' },
-            { icon: '☁️', temp: '12°C / 6°C', description: '陰天' },
+            { location: '武雄', icon: '☀️', temp: '12°C / 5°C', rain_chance: '10%', humidity: '65%', description: '晴朗' },
+            { location: '佐賀', icon: '☁️', temp: '10°C / 4°C', rain_chance: '20%', humidity: '70%', description: '多雲' },
+            { location: '福岡', icon: '🌦️', temp: '11°C / 6°C', rain_chance: '60%', humidity: '80%', description: '偶有陣雨' },
+            { location: '小倉', icon: '☀️', temp: '13°C / 7°C', rain_chance: '10%', humidity: '60%', description: '晴時多雲' },
+            { location: '福岡', icon: '☁️', temp: '12°C / 6°C', rain_chance: '30%', humidity: '75%', description: '陰天' },
         ];
         // 1. 動態生成每日行程內容和導覽按鈕
         dailyItineraryData.forEach((day, index) => {
@@ -365,11 +365,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const weather = weatherForecasts[index] || weatherForecasts[weatherForecasts.length - 1];
 
             dayElement.innerHTML = `
-                <div class="flex justify-between items-start mb-4">
+                <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-blue-600">Day ${day.day} ${day.date}: ${day.theme}</h3>
-                    <div class="text-right flex-shrink-0 ml-4 p-2 bg-blue-50 rounded-lg">
-                        <p class="text-lg font-bold">${weather.icon} ${weather.temp}</p>
-                        <p class="text-sm text-gray-600">${weather.description}</p>
+                    <div class="flex-shrink-0 ml-4 p-3 bg-blue-50 rounded-xl shadow-sm aspect-[5/3] w-40 flex flex-col justify-between">
+                        <div class="flex justify-between items-center">
+                            <p class="font-bold text-blue-800">${weather.location}</p>
+                            <p class="text-2xl">${weather.icon}</p>
+                        </div>
+                        <p class="text-right text-lg font-bold text-gray-800">${weather.temp}</p>
+                        <div class="flex justify-end space-x-3 text-xs text-gray-500">
+                            <span>☔️ ${weather.rain_chance}</span>
+                            <span>💧 ${weather.humidity}</span>
+                        </div>
                     </div>
                 </div>
                 <ol class="space-y-8">
