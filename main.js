@@ -416,40 +416,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function setupHeaderBackground() {
-        const header = document.getElementById('main-header');
+        const header = document.querySelector('header');
         if (!header) return;
 
+        // 一些福岡和周邊的風景圖片 URL
         const images = [
-            'https://images.unsplash.com/photo-1584486188544-dc52545d1495?q=80&w=1974&auto=format&fit=crop', // 中洲屋台
-            'https://images.unsplash.com/photo-1628367134344-3789402439a4?q=80&w=2070&auto=format&fit=crop', // 福岡塔與海灘
-            'https://images.unsplash.com/photo-1593228173454-7d5865c34347?q=80&w=2070&auto=format&fit=crop', // 大濠公園
-            'https://images.unsplash.com/photo-1613589542393-579653c51145?q=80&w=1974&auto=format&fit=crop', // 櫛田神社
-            'https://images.unsplash.com/photo-1633481783433-7f54367335c0?q=80&w=2070&auto=format&fit=crop'  // 小倉城
+            'https://images.unsplash.com/photo-1593228424492-0960145d4d35?q=80&w=1974&auto=format&fit=crop', // 福岡塔
+            'https://images.unsplash.com/photo-1628367332123-0b0433156637?q=80&w=2070&auto=format&fit=crop', // 太宰府天滿宮
+            'https://images.unsplash.com/photo-1578534198941-1c52d5318999?q=80&w=2070&auto=format&fit=crop', // 門司港
+            'https://plus.unsplash.com/premium_photo-1673306383489-7f85898165a2?q=80&w=2070&auto=format&fit=crop', // 中洲屋台
+            'https://images.unsplash.com/photo-1632833282093-53e5973e50d7?q=80&w=1974&auto=format&fit=crop'  // 糸島櫻井二見浦
         ];
 
-        const bgContainer = document.createElement('div');
-        bgContainer.className = 'header-bg-container';
+        let currentIndex = 0;
 
-        images.forEach((imgUrl, index) => {
-            const imgDiv = document.createElement('div');
-            imgDiv.className = 'header-bg-image';
-            imgDiv.style.backgroundImage = `url(${imgUrl})`;
-            if (index === 0) {
-                imgDiv.style.opacity = '1'; // 預設顯示第一張
-            }
-            bgContainer.appendChild(imgDiv);
-        });
+        function updateBackground() {
+            // 為了讓 CSS 的偽元素 (::before) 可以讀取到圖片，我們將 URL 設置在 style 屬性中
+            header.style.setProperty('--bg-image', `url(${images[currentIndex]})`);
+            
+            // 更新索引，如果到底了就從頭開始
+            currentIndex = (currentIndex + 1) % images.length;
+        }
 
-        header.prepend(bgContainer);
+        // 立即設定第一張背景
+        updateBackground();
 
-        let currentImageIndex = 0;
-        const imageElements = bgContainer.querySelectorAll('.header-bg-image');
-
-        setInterval(() => {
-            imageElements[currentImageIndex].style.opacity = '0'; // 淡出目前圖片
-            currentImageIndex = (currentImageIndex + 1) % images.length; // 計算下一張圖片的索引
-            imageElements[currentImageIndex].style.opacity = '1'; // 淡入下一張圖片
-        }, 20000); // 每 20 秒更換一次
+        // 每 20 秒更換一次圖片
+        setInterval(updateBackground, 20000);
     }
 
     setupNavigation();
