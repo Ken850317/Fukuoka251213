@@ -326,11 +326,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // 使用新的資料結構
         const dailyItineraryData = tripData.itinerary;
 
-        dailyItineraryData.forEach(day => {
+        // 1. 動態生成每日行程內容和導覽按鈕
+        dailyItineraryData.forEach((day, index) => {
+            const dayId = `day${day.day}`;
+            const isFirstDay = index === 0;
+
+            // 建立每日行程區塊
             const dayElement = document.createElement('div');
-            // 為每日行程區塊加上 ID，方便錨點跳轉
-            dayElement.id = `day-${day.day}`;
-            dayElement.className = 'pt-2'; // 增加一點上邊距，避免跳轉時標題太貼近頂部
+            dayElement.id = dayId;
+            dayElement.className = `daily-itinerary-item pt-2 ${isFirstDay ? '' : 'hidden'}`; // 預設只顯示第一個
             dayElement.innerHTML = `
                 <h3 class="text-xl font-bold mb-4 text-blue-600">Day ${day.day} ${day.date}: ${day.theme}</h3>
                 <ol class="space-y-8">
@@ -357,20 +361,36 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             dailyContainer.appendChild(dayElement);
 
-            // 建立對應的日期導覽按鈕
-            const dayBtn = document.createElement('a');
-            dayBtn.href = `#day-${day.day}`;
-            dayBtn.className = 'daily-nav-btn bg-gray-200 hover:bg-blue-500 hover:text-white transition-colors duration-200 py-1 px-4 rounded-full text-sm font-semibold';
+            // 建立對應的日期導覽按鈕 (使用 button)
+            const dayBtn = document.createElement('button');
+            dayBtn.dataset.target = dayId;
+            const activeClasses = 'bg-blue-500 text-white';
+            const inactiveClasses = 'bg-gray-200 hover:bg-blue-500 hover:text-white';
+            dayBtn.className = `daily-nav-btn transition-colors duration-200 py-1 px-4 rounded-full text-sm font-semibold ${isFirstDay ? activeClasses : inactiveClasses}`;
             dayBtn.textContent = `Day ${day.day}`;
             dailyNavContainer.appendChild(dayBtn);
+        });
 
-            // 增加平滑滾動效果
-            dayBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetElement = document.getElementById(this.getAttribute('href').substring(1));
-                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // 2. 為導覽按鈕容器加上點擊事件 (事件委派)
+        dailyNavContainer.addEventListener('click', (e) => {
+            const targetBtn = e.target.closest('.daily-nav-btn');
+            if (!targetBtn) return;
+
+            const targetId = targetBtn.dataset.target;
+
+            // 更新按鈕樣式
+            dailyNavContainer.querySelectorAll('.daily-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white');
+                btn.classList.add('bg-gray-200', 'hover:bg-blue-500', 'hover:text-white');
+            });
+            targetBtn.classList.add('bg-blue-500', 'text-white');
+
+            // 顯示/隱藏對應的行程內容
+            dailyContainer.querySelectorAll('.daily-itinerary-item').forEach(item => {
+                item.classList.toggle('hidden', item.id !== targetId);
             });
         });
+
     }
 
     function setupBackToTopButton() {
