@@ -40,7 +40,9 @@ window.initMap = function() {
 
         filteredData.forEach(location => {
             const locationCard = document.createElement('div');
-            locationCard.className = 'location-card bg-white rounded-lg shadow overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer';
+            // 加上 data-name 屬性以便後續選取，並優化 transition 效果
+            locationCard.className = 'location-card bg-white rounded-lg shadow overflow-hidden transition-all duration-300 hover:scale-105 cursor-pointer border-2 border-transparent';
+            locationCard.dataset.name = location.name;
             locationCard.dataset.category = location.category;
             locationCard.innerHTML = `
                 <div class="p-5">
@@ -122,6 +124,21 @@ window.initMap = function() {
                 </div>`;
             infoWindow.setContent(content);
             infoWindow.open(map, marker);
+
+            // --- 新增：高亮對應的卡片 ---
+            // 1. 移除先前的高亮效果
+            const previouslyHighlighted = document.querySelector('.location-card.highlighted-card');
+            if (previouslyHighlighted) {
+                previouslyHighlighted.classList.remove('highlighted-card');
+            }
+
+            // 2. 找到並高亮對應的卡片
+            const targetCard = document.querySelector(`.location-card[data-name="${location.name}"]`);
+            if (targetCard) {
+                targetCard.classList.add('highlighted-card');
+                // 3. 將卡片捲動到可視區域中央
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         });
         markers.push(marker);
     });

@@ -2,10 +2,6 @@
 body {
     font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
 }
-.content-section {
-    display: none;
-    animation: fadeIn 0.5s ease-in-out;
-}
 .content-section.active {
     display: block;
 }
@@ -31,4 +27,37 @@ body {
     border-radius: 50%;
     background-color: #3b82f6; /* blue-500 */
     border: 2px solid #ffffff;
+}
+
+/* --- Header 動態背景 --- */
+header {
+    position: relative; /* 讓偽元素可以定位 */
+    overflow: hidden;   /* 隱藏超出邊界的圖片 */
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--bg-image); /* 由 JS 動態設定 */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5; /* 設定背景圖片 50% 透明度 */
+    z-index: 0;   /* 將背景放在內容下方 */
+    transition: background-image 1.5s ease-in-out; /* 圖片切換時的淡入淡出效果 */
+}
+
+/* 為標題文字加上陰影，使其在複雜背景下更清晰 */
+.text-shadow {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* 特色地圖卡片高亮樣式 */
+.location-card.highlighted-card {
+    transform: scale(1.03);
+    border: 2px solid #3b82f6; /* blue-500 */
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
