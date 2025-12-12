@@ -3,13 +3,13 @@
 window.initMap = function() {
     // 在 initMap 內部獲取所有需要的 DOM 元素和資料
     // 確保在函式執行時，DOM 和 tripData 都已準備就緒
-    const foodContainer = document.getElementById('food-list-container');
-    const filterContainer = document.getElementById('food-filter-container');
-    const mapCanvas = document.getElementById('food-map-canvas');
-    const foodData = (typeof tripData !== 'undefined') ? tripData.food : null;
+    const listContainer = document.getElementById('map-list-container');
+    const filterContainer = document.getElementById('map-filter-container');
+    const mapCanvas = document.getElementById('map-canvas');
+    const locationData = (typeof tripData !== 'undefined') ? tripData.locations : null;
 
-    if (!foodContainer || !filterContainer || !mapCanvas || !foodData) {
-        console.error("Food map section elements or data not found. Map initialization aborted.");
+    if (!listContainer || !filterContainer || !mapCanvas || !locationData) {
+        console.error("Map section elements or data not found. Map initialization aborted.");
         return;
     }
 
@@ -18,7 +18,7 @@ window.initMap = function() {
     const infoWindow = new google.maps.InfoWindow();
 
     // 1. 動態生成篩選按鈕
-    const categories = ['all', ...new Set(foodData.map(item => item.category || '其他'))];
+    const categories = ['all', ...new Set(locationData.map(item => item.category || '其他'))];
     filterContainer.innerHTML = categories.map(category => {
         const isSelected = category === 'all';
         const text = category === 'all' ? '全部' : category;
@@ -26,7 +26,7 @@ window.initMap = function() {
         const defaultClasses = 'bg-gray-200 hover:bg-gray-300';
         return `
             <button 
-                class="food-filter-btn py-1 px-3 rounded-full text-sm ${isSelected ? selectedClasses : defaultClasses}" 
+                class="map-filter-btn py-1 px-3 rounded-full text-sm ${isSelected ? selectedClasses : defaultClasses}" 
                 data-category="${category}" 
                 aria-selected="${isSelected}">
                 ${text}
@@ -34,31 +34,31 @@ window.initMap = function() {
     }).join('');
 
     // 2. 渲染美食卡片列表的函式
-    const renderFoodList = (category = 'all') => {
-        foodContainer.innerHTML = '';
-        const filteredData = category === 'all' ? foodData : foodData.filter(item => item.category === category);
+    const renderLocationList = (category = 'all') => {
+        listContainer.innerHTML = '';
+        const filteredData = category === 'all' ? locationData : locationData.filter(item => item.category === category);
 
-        filteredData.forEach(food => {
-            const foodCard = document.createElement('div');
-            foodCard.className = 'food-card bg-white rounded-lg shadow overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer';
-            foodCard.dataset.category = food.category;
-            foodCard.innerHTML = `
+        filteredData.forEach(location => {
+            const locationCard = document.createElement('div');
+            locationCard.className = 'location-card bg-white rounded-lg shadow overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer';
+            locationCard.dataset.category = location.category;
+            locationCard.innerHTML = `
                 <div class="p-5">
                     <div class="flex justify-between items-start">
-                        <h4 class="text-lg font-bold text-gray-900">${food.name}</h4>
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">${food.category}</span>
+                        <h4 class="text-lg font-bold text-gray-900">${location.name}</h4>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">${location.category}</span>
                     </div>
-                    <p class="text-gray-600 mt-2 mb-3">${food.description}</p>
-                    <a href="${food.mapLink}" target="_blank" class="font-semibold text-blue-600 hover:underline">
+                    <p class="text-gray-600 mt-2 mb-3">${location.description}</p>
+                    <a href="${location.mapLink}" target="_blank" class="font-semibold text-blue-600 hover:underline">
                         地圖位置 ↗
                     </a>
                 </div>
             `;
-            foodContainer.appendChild(foodCard);
+            listContainer.appendChild(locationCard);
 
             // 點擊卡片時，觸發地圖標記的點擊事件
-            foodCard.addEventListener('click', () => {
-                const correspondingMarker = markers.find(m => m.title === food.name);
+            locationCard.addEventListener('click', () => {
+                const correspondingMarker = markers.find(m => m.title === location.name);
                 if (correspondingMarker) {
                     google.maps.event.trigger(correspondingMarker, 'click');
                     map.panTo(correspondingMarker.getPosition()); // 將地圖中心平移到標記上
@@ -69,11 +69,11 @@ window.initMap = function() {
 
     // 3. 篩選按鈕的點擊事件
     filterContainer.addEventListener('click', (e) => {
-        const targetBtn = e.target.closest('.food-filter-btn');
+        const targetBtn = e.target.closest('.map-filter-btn');
         if (!targetBtn) return;
 
         const category = targetBtn.dataset.category;
-        renderFoodList(category);
+        renderLocationList(category);
 
         // 同步更新地圖標記的可見性
         markers.forEach(marker => {
@@ -81,7 +81,7 @@ window.initMap = function() {
         });
 
         // 更新按鈕樣式
-        filterContainer.querySelectorAll('.food-filter-btn').forEach(b => {
+        filterContainer.querySelectorAll('.map-filter-btn').forEach(b => {
             b.setAttribute('aria-selected', 'false');
             b.classList.remove('bg-blue-500', 'text-white');
             b.classList.add('bg-gray-200', 'hover:bg-gray-300');
@@ -101,14 +101,14 @@ window.initMap = function() {
     });
 
     // 5. 建立所有標記
-    foodData.forEach(food => {
-        if (!food.coords || !food.coords.lat || !food.coords.lng) return;
+    locationData.forEach(location => {
+        if (!location.coords || !location.coords.lat || !location.coords.lng) return;
 
         const marker = new google.maps.Marker({
-            position: food.coords,
+            position: location.coords,
             map: map,
-            title: food.name,
-            category: food.category,
+            title: location.name,
+            category: location.category,
             animation: google.maps.Animation.DROP,
         });
 
@@ -116,9 +116,9 @@ window.initMap = function() {
         marker.addListener('click', () => {
             const content = `
                 <div class="p-1 font-sans">
-                    <h4 class="font-bold text-md">${food.name}</h4>
-                    <p class="text-gray-600 mt-1">${food.description}</p>
-                    <a href="${food.mapLink}" target="_blank" class="text-blue-600 hover:underline text-sm">在 Google Maps 中打開</a>
+                    <h4 class="font-bold text-md">${location.name}</h4>
+                    <p class="text-gray-600 mt-1">${location.description}</p>
+                    <a href="${location.mapLink}" target="_blank" class="text-blue-600 hover:underline text-sm">在 Google Maps 中打開</a>
                 </div>`;
             infoWindow.setContent(content);
             infoWindow.open(map, marker);
@@ -127,7 +127,7 @@ window.initMap = function() {
     });
 
     // 6. 地圖初始化完成後，渲染初始的卡片列表
-    renderFoodList();
+    renderLocationList();
 };
 
 document.addEventListener('DOMContentLoaded', function() {

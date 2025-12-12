@@ -24,7 +24,7 @@
                 <button data-target="overview" class="nav-btn py-3 px-4 font-semibold transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="true">行程總覽</button>
                 <button data-target="transport" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">交通住宿</button>
                 <button data-target="daily" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">每日行程</button>
-                <button data-target="food" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">美食地圖</button>
+                <button data-target="map" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">特色地圖</button>
                 <button data-target="prep" class="nav-btn py-3 px-4 font-semibold hover:bg-blue-600 transition-colors duration-200 whitespace-nowrap" role="tab" aria-selected="false">行前準備</button>
             </div>
         </div>
@@ -89,16 +89,16 @@
         </section>
 
         <!-- Section: 美食地圖 -->
-        <section id="food" class="content-section">
-            <h2 class="text-2xl font-bold mb-4 border-l-4 border-blue-500 pl-3">美食地圖</h2>
+        <section id="map" class="content-section">
+            <h2 class="text-2xl font-bold mb-4 border-l-4 border-blue-500 pl-3">特色地圖</h2>
             <!-- Google Map 容器 -->
-            <div id="food-map-canvas" class="w-full h-96 md:h-[500px] mb-6 rounded-lg shadow-md bg-gray-200">
+            <div id="map-canvas" class="w-full h-96 md:h-[500px] mb-6 rounded-lg shadow-md bg-gray-200">
                 <!-- 地圖將會渲染於此 -->
             </div>
-            <div id="food-filter-container" class="mb-6 flex flex-wrap gap-2">
+            <div id="map-filter-container" class="mb-6 flex flex-wrap gap-2">
                 <!-- JS 會動態生成美食篩選按鈕於此 -->
             </div>
-            <div id="food-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="map-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- JS 會動態生成內容於此 -->
             </div>
         </section>

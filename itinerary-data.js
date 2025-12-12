@@ -210,13 +210,19 @@ const tripData = {
         }
     ],
 
-    // 美食地圖
-    food: [
+    // 特色地圖
+    locations: [
+        // 美食
         { name: "鐵板燒 天神內臟 博多一番街", category: "正餐", description: "Day 1 午餐，位於博多車站內的熱門鐵板燒。", mapLink: "https://maps.app.goo.gl/orveDgkH829tuRzw7", coords: { lat: 33.5897, lng: 130.4206 } },
         { name: "努努雞", category: "點心", description: "Day 1 購買，福岡特色冷炸雞。", mapLink: "https://maps.app.goo.gl/ZXq8sLeEFiHetFxz7", coords: { lat: 33.5898, lng: 130.4213 } },
         { name: "炭劇場 武藏坐", category: "下午茶", description: "Day 3 下午茶，體驗日式端爐燒。", mapLink: "https://maps.app.goo.gl/DrmKzv1ZQVcccFXN6", coords: { lat: 33.5873, lng: 130.4023 } },
         { name: "藥院燒肉 NIKUICHI", category: "燒肉", description: "Day 3 晚餐，高人氣燒肉店。", mapLink: "https://maps.app.goo.gl/dzvtJJwMFXHGZ5EY7", coords: { lat: 33.5818, lng: 130.4002 } },
         { name: "座離宮 博多本店", category: "正餐", description: "Day 4 晚餐，氣氛佳的居酒屋。", mapLink: "https://maps.app.goo.gl/KcAWPPDG5tcGNjzc9", coords: { lat: 33.5931, lng: 130.4181 } },
-        { name: "中洲屋台", category: "宵夜", description: "Day 4 宵夜，體驗福岡道地路邊攤文化。", mapLink: "https://maps.app.goo.gl/8ZyRZnCr6UXntLuU9", coords: { lat: 33.5925, lng: 130.4075 } }
+        { name: "中洲屋台", category: "宵夜", description: "Day 4 宵夜，體驗福岡道地路邊攤文化。", mapLink: "https://maps.app.goo.gl/8ZyRZnCr6UXntLuU9", coords: { lat: 33.5925, lng: 130.4075 } },
+        // 景點
+        { name: "武雄溫泉樓門", category: "景點", description: "Day 1 景點，武雄溫泉的象徵性建築。", mapLink: "https://maps.app.goo.gl/aY32x2B8GvJjYj2x5", coords: { lat: 33.1937, lng: 130.0214 } },
+        { name: "武雄市圖書館", category: "景點", description: "Day 1 景點，結合圖書館與蔦屋書店的複合式空間。", mapLink: "https://maps.app.goo.gl/8GgL2YhZkL3yW8yq9", coords: { lat: 33.1856, lng: 130.0196 } },
+        { name: "豪斯登堡", category: "景點", description: "Day 2 路線，重現荷蘭街景的廣大主題樂園。", mapLink: "https://maps.app.goo.gl/V5iNqW8oBqjYj8aY8", coords: { lat: 33.0871, lng: 129.7871 } },
+        { name: "小倉城", category: "景點", description: "Day 4 景點，北九州市的著名地標。", mapLink: "https://maps.app.goo.gl/f9xYgY7Zz6YjYj9x6", coords: { lat: 33.8856, lng: 130.8756 } }
     ]
 };
