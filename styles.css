@@ -49,7 +49,7 @@ header::before {
     background-size: cover;
     background-position: center;
     opacity: 0.5; /* 設定背景圖片 50% 透明度 */
-    z-index: 0;   /* 將背景放在內容下方 */
+    z-index: -1;  /* 將偽元素放在父元素 (header) 的背景層 */
     transition: background-image 1.5s ease-in-out; /* 圖片切換時的淡入淡出效果 */
 }
 
