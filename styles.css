@@ -34,23 +34,20 @@ body {
 
 /* --- Header 動態背景 --- */
 header {
-    position: relative; /* 讓偽元素可以定位 */
+    position: relative; /* 建立定位上下文，讓偽元素可以相對於它定位 */
     overflow: hidden;   /* 隱藏超出邊界的圖片 */
 }
 
 header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: var(--bg-image); /* 由 JS 動態設定 */
+    content: ''; /* 偽元素必須有 content 屬性 */
+    position: absolute; /* 絕對定位，脫離文件流 */
+    top: 0; left: 0; width: 100%; height: 100%; /* 填滿整個 header */
+    background-image: var(--bg-image); /* 背景圖片由 JS 動態提供 */
     background-size: cover;
     background-position: center;
-    opacity: 0.5; /* 設定背景圖片 50% 透明度 */
-    z-index: -1;  /* 將偽元素放在父元素 (header) 的背景層 */
-    transition: background-image 1.5s ease-in-out; /* 圖片切換時的淡入淡出效果 */
+    opacity: 0.5; /* 設定 50% 透明度 */
+    z-index: -1;  /* 將此偽元素置於父元素(header)的內容下方 */
+    transition: background-image 1.5s ease-in-out; /* 讓圖片切換時有平滑的淡入淡出效果 */
 }
 
 /* 為標題文字加上陰影，使其在複雜背景下更清晰 */

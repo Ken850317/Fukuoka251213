@@ -448,8 +448,10 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentIndex = 0;
 
         function updateBackground() {
-            // 為了讓 CSS 的偽元素 (::before) 可以讀取到圖片，我們將 URL 設置在 style 屬性中
-            header.style.setProperty('--bg-image', `url(${images[currentIndex]})`);
+            // 為了讓 CSS 可以讀取到圖片，我們將圖片 URL 設置在 style 屬性中。
+            // 這樣 CSS 可以這樣使用: background-image: url(var(--bg-image-url));
+            // 這種做法比直接設定 `url(...)` 字串更有彈性。
+            header.style.setProperty('--bg-image-url', images[currentIndex]);
             
             // 更新索引，如果到底了就從頭開始
             currentIndex = (currentIndex + 1) % images.length;
