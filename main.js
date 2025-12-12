@@ -343,6 +343,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // 使用新的資料結構
         const dailyItineraryData = tripData.itinerary;
 
+        // 預設的天氣預報資料 (佔位用)
+        const weatherForecasts = [
+            { icon: '☀️', temp: '12°C / 5°C', description: '晴朗' },
+            { icon: '☁️', temp: '10°C / 4°C', description: '多雲' },
+            { icon: '🌦️', temp: '11°C / 6°C', description: '偶有陣雨' },
+            { icon: '☀️', temp: '13°C / 7°C', description: '晴時多雲' },
+            { icon: '☁️', temp: '12°C / 6°C', description: '陰天' },
+        ];
         // 1. 動態生成每日行程內容和導覽按鈕
         dailyItineraryData.forEach((day, index) => {
             const dayId = `day${day.day}`;
@@ -352,8 +360,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const dayElement = document.createElement('div');
             dayElement.id = dayId;
             dayElement.className = `daily-itinerary-item pt-2 ${isFirstDay ? '' : 'hidden'}`; // 預設只顯示第一個
+            
+            // 取得對應的天氣資訊，如果沒有就用最後一個當作預設
+            const weather = weatherForecasts[index] || weatherForecasts[weatherForecasts.length - 1];
+
             dayElement.innerHTML = `
-                <h3 class="text-xl font-bold mb-4 text-blue-600">Day ${day.day} ${day.date}: ${day.theme}</h3>
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-blue-600">Day ${day.day} ${day.date}: ${day.theme}</h3>
+                    <div class="text-right flex-shrink-0 ml-4 p-2 bg-blue-50 rounded-lg">
+                        <p class="text-lg font-bold">${weather.icon} ${weather.temp}</p>
+                        <p class="text-sm text-gray-600">${weather.description}</p>
+                    </div>
+                </div>
                 <ol class="space-y-8">
                     ${day.schedule.map(item => `
                         <li class="timeline-item pb-8">
@@ -432,43 +450,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function setupHeaderBackground() {
-        const header = document.querySelector('header');
-        if (!header) return;
-
-        // 一些福岡和周邊的風景圖片 URL
-        const images = [
-            'https://images.unsplash.com/photo-1593228424492-0960145d4d35?q=80&w=1974&auto=format&fit=crop', // 福岡塔
-            'https://images.unsplash.com/photo-1628367332123-0b0433156637?q=80&w=2070&auto=format&fit=crop', // 太宰府天滿宮
-            'https://images.unsplash.com/photo-1578534198941-1c52d5318999?q=80&w=2070&auto=format&fit=crop', // 門司港
-            'https://plus.unsplash.com/premium_photo-1673306383489-7f85898165a2?q=80&w=2070&auto=format&fit=crop', // 中洲屋台
-            'https://images.unsplash.com/photo-1632833282093-53e5973e50d7?q=80&w=1974&auto=format&fit=crop'  // 糸島櫻井二見浦
-        ];
-
-        let currentIndex = 0;
-
-        function updateBackground() {
-            // 為了讓 CSS 可以讀取到圖片，我們將圖片 URL 設置在 style 屬性中。
-            // 這樣 CSS 可以這樣使用: background-image: url(var(--bg-image-url));
-            // 這種做法比直接設定 `url(...)` 字串更有彈性。
-            header.style.setProperty('--bg-image-url', images[currentIndex]);
-            
-            // 更新索引，如果到底了就從頭開始
-            currentIndex = (currentIndex + 1) % images.length;
-        }
-
-        // 立即設定第一張背景
-        updateBackground();
-
-        // 每 20 秒更換一次圖片
-        setInterval(updateBackground, 20000);
-    }
-
     setupNavigation();
     setupBudgetChart();
     setupAccommodation();
     setupTransport();
     setupDailyItinerary();
     setupBackToTopButton();
-    setupHeaderBackground();
 });
