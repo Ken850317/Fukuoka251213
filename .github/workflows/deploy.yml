@@ -4,12 +4,10 @@ name: Deploy Itinerary Website
 
 # 觸發條件
 on:
-  # 1. 當推送到 main 分支，且 itinerary-data.js 有變動時
+  # 1. 當有任何變更推送到 main 分支時
   push:
     branches:
       - main
-    paths:
-      - 'itinerary-data.js'
   # 2. 允許在 GitHub 頁面上手動觸發
   workflow_dispatch:
 
