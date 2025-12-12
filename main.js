@@ -343,13 +343,37 @@ document.addEventListener('DOMContentLoaded', function() {
         // 使用新的資料結構
         const dailyItineraryData = tripData.itinerary;
 
-        // 預設的詳細天氣預報資料 (佔位用)
+        // 預設的更詳細天氣預報資料 (佔位用)，包含早中晚
         const weatherForecasts = [
-            { location: '武雄', icon: '☀️', temp: '12°C / 5°C', rain_chance: '10%', humidity: '65%', description: '晴朗' },
-            { location: '佐賀', icon: '☁️', temp: '10°C / 4°C', rain_chance: '20%', humidity: '70%', description: '多雲' },
-            { location: '福岡', icon: '🌦️', temp: '11°C / 6°C', rain_chance: '60%', humidity: '80%', description: '偶有陣雨' },
-            { location: '小倉', icon: '☀️', temp: '13°C / 7°C', rain_chance: '10%', humidity: '60%', description: '晴時多雲' },
-            { location: '福岡', icon: '☁️', temp: '12°C / 6°C', rain_chance: '30%', humidity: '75%', description: '陰天' },
+            { 
+                location: '武雄', temp_range: '12°C / 5°C', rain_chance: '10%', humidity: '65%', description: '晴朗',
+                periods: [
+                    { time: '早上', icon: '☀️', temp: '8°C' }, { time: '中午', icon: '☀️', temp: '12°C' }, { time: '晚上', icon: '🌙', temp: '6°C' }
+                ]
+            },
+            { 
+                location: '佐賀', temp_range: '10°C / 4°C', rain_chance: '20%', humidity: '70%', description: '多雲',
+                periods: [
+                    { time: '早上', icon: '☁️', temp: '7°C' }, { time: '中午', icon: '☁️', temp: '10°C' }, { time: '晚上', icon: '☁️', temp: '5°C' }
+                ]
+            },
+            { 
+                location: '福岡', temp_range: '11°C / 6°C', rain_chance: '60%', humidity: '80%', description: '偶有陣雨',
+                periods: [
+                    { time: '早上', icon: '☁️', temp: '9°C' }, { time: '中午', icon: '🌦️', temp: '11°C' }, { time: '晚上', icon: '🌧️', temp: '7°C' }
+                ]
+            },
+            { 
+                location: '小倉', temp_range: '13°C / 7°C', rain_chance: '10%', humidity: '60%', description: '晴時多雲',
+                periods: [
+                    { time: '早上', icon: '🌤️', temp: '10°C' }, { time: '中午', icon: '☀️', temp: '13°C' }, { time: '晚上', icon: '🌙', temp: '8°C' }
+                ]
+            },
+            { location: '福岡', temp_range: '12°C / 6°C', rain_chance: '30%', humidity: '75%', description: '陰天',
+                periods: [
+                    { time: '早上', icon: '☁️', temp: '9°C' }, { time: '中午', icon: '☁️', temp: '12°C' }, { time: '晚上', icon: '☁️', temp: '7°C' }
+                ]
+            },
         ];
         // 1. 動態生成每日行程內容和導覽按鈕
         dailyItineraryData.forEach((day, index) => {
@@ -365,17 +389,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const weather = weatherForecasts[index] || weatherForecasts[weatherForecasts.length - 1];
 
             dayElement.innerHTML = `
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex justify-between items-start mb-4">
                     <h3 class="text-xl font-bold text-blue-600">Day ${day.day} ${day.date}: ${day.theme}</h3>
-                    <div class="flex-shrink-0 ml-4 p-3 bg-blue-50 rounded-xl shadow-sm aspect-[5/3] w-40 flex flex-col justify-between">
-                        <div class="flex justify-between items-center">
+                    <div class="flex-shrink-0 ml-4 p-3 bg-blue-50 rounded-xl shadow-sm w-48">
+                        <div class="flex justify-between items-center mb-2">
                             <p class="font-bold text-blue-800">${weather.location}</p>
-                            <p class="text-2xl">${weather.icon}</p>
+                            <p class="text-lg font-bold text-gray-800">${weather.temp_range}</p>
                         </div>
-                        <p class="text-right text-lg font-bold text-gray-800">${weather.temp}</p>
-                        <div class="flex justify-end space-x-3 text-xs text-gray-500">
-                            <span>☔️ ${weather.rain_chance}</span>
-                            <span>💧 ${weather.humidity}</span>
+                        <div class="text-xs text-gray-600 space-y-1 mb-3">
+                            <p>降雨機率: ${weather.rain_chance}</p>
+                            <p>濕度: ${weather.humidity}</p>
+                        </div>
+                        <div class="flex justify-between text-center border-t border-blue-100 pt-2">
+                            ${weather.periods.map(p => `
+                                <div class="flex-1">
+                                    <p class="text-xs text-gray-500">${p.time}</p>
+                                    <p class="text-xl">${p.icon}</p>
+                                    <p class="text-sm font-semibold">${p.temp}</p>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 </div>
