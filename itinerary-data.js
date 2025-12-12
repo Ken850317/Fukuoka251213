@@ -74,13 +74,36 @@ const tripData = {
             date: "12/14 (六)",
             theme: "分組一日遊 (長崎/佐賀/豪斯登堡)",
             schedule: [
-                {
-                    time: "全日",
-                    activity: "自由選擇目的地一日遊",
-                    description: "可選擇前往長崎體驗異國風情、佐賀進行文青歷史之旅，或前往豪斯登堡享受夢幻樂園。詳細路線請參考總覽。",
+                 {
+                    time: "路線一",
+                    activity: "長崎路線 (異國風情)",
+                    description: `
+                        <p class="mb-2">搭乘新幹線前往，遊覽眼鏡橋、原爆資料館，傍晚至稻佐山欣賞夜景。晚上可搭乘 21:18 班次回武雄。</p>
+                        <p class="text-xs text-gray-500">* 雨天備案：可改為參觀長崎歷史博物館或哥拉巴莊園。</p>
+                    `,
                     duration: "全天",
-                    transport: "JR 特急列車 / 新幹線",
+                    transport: "新幹線 (10:01 武雄溫泉 → 10:32 長崎)",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=長崎"
+                },
+                {
+                    time: "路線二",
+                    activity: "佐賀路線 (文青歷史)",
+                    description: `
+                        <p class="mb-2">參觀熱氣球博物館、佐賀城本丸歷史館，並品嚐頂級佐賀牛。</p>
+                    `,
+                    duration: "全天",
+                    transport: "JR 特急列車 (約 30 分鐘)",
+                    mapLink: "https://www.google.com/maps/search/?api=1&query=佐賀"
+                },
+                {
+                    time: "路線三",
+                    activity: "豪斯登堡路線 (夢幻樂園)",
+                    description: `
+                        <p class="mb-2">享受歐洲風情小鎮、VR遊樂設施與夜晚的「光之王國」百萬燈飾。</p>
+                    `,
+                    duration: "全天",
+                    transport: "JR 特急列車 (約 30-40 分鐘)",
+                    mapLink: "https://www.google.com/maps/search/?api=1&query=豪斯登堡"
                 }
             ]
         },
@@ -100,14 +123,14 @@ const tripData = {
                 {
                     time: "16:15",
                     activity: "炭劇場 武藏坐 (端爐下午茶)",
-                    description: "已預約。從博多車站搭乘地鐵至天神南站後步行前往。",
+                    description: "已預約。從博多車站搭乘地鐵至「天神南站」後步行前往 (總路程約 20 分鐘)。",
                     duration: "約 2 小時",
                     transport: "地鐵 + 步行",
                     mapLink: "https://maps.app.goo.gl/DrmKzv1ZQVcccFXN6"
                 },
                 {
                     time: "晚上",
-                    activity: "天神/博多自由活動",
+                    activity: "天神/博多地區自由活動",
                     description: "在下午茶後，自由探索天神或博多地區的商店與景點。",
                     duration: "約 3-4 小時",
                     transport: "步行 / 地鐵",
@@ -130,19 +153,27 @@ const tripData = {
             schedule: [
                 {
                     time: "早上",
-                    activity: "旦過市場 & 小倉城",
-                    description: "搭乘新幹線前往小倉，在旦過市場享用早午餐，下午參觀小倉城。",
-                    duration: "約 7 小時",
+                    activity: "前往小倉 & 旦過市場",
+                    description: "在旦過市場享用早午餐，體驗「大學丼」。",
+                    duration: "約 2.5 小時",
                     transport: "新幹線 + 步行",
                     mapLink: "https://www.google.com/maps/search/?api=1&query=旦過市場"
+                },
+                {
+                    time: "下午",
+                    activity: "小倉城周邊散策 & 返回博多",
+                    description: "參觀小倉城、八坂神社等景點，預計 16:00 於小倉車站集合返回博多。",
+                    duration: "約 2 小時",
+                    transport: "地鐵 / 步行",
+                    mapLink: "https://maps.app.goo.gl/KcAWPPDG5tcGNjzc9"
                 },
                 {
                     time: "18:00",
                     activity: "晚餐：座離宮 博多本店 (已預約)",
                     description: "返回博多後享用精緻晚餐。",
-                    duration: "約 2 小時",
-                    transport: "地鐵 / 步行",
-                    mapLink: "https://maps.app.goo.gl/KcAWPPDG5tcGNjzc9"
+                    duration: "自由安排",
+                    transport: "步行",
+                    mapLink: "https://maps.app.goo.gl/8ZyRZnCr6UXntLuU9"
                 },
                 {
                     time: "22:00",
