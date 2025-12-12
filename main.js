@@ -252,7 +252,12 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateChart(currency) {
             currentCurrency = currency;
             const isJPY = currency === 'JPY';
-            budgetChart.data.labels = budgetData.items.map(item => item.label);
+            // 修正：將讀取的屬性從 item.label 改為 item.category
+            // 並且處理重複的 '交通' 類別，讓圖例顯示更清晰
+            budgetChart.data.labels = budgetData.items.map(item => {
+                // 如果類別是交通，就使用更詳細的描述
+                return item.category === '交通' ? item.description : item.category;
+            });
             budgetChart.data.datasets[0].data = budgetData.items.map(item => isJPY ? item.amount * jpyRate : item.amount);
             budgetChart.options.plugins.datalabels.currency = currency;
             budgetChart.update();

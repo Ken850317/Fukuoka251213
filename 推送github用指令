@@ -3,5 +3,5 @@ git commit -m "feat: 此為更新詳細內容的備註"
 git push origin main
 
 git add .
-git commit -m "feat: 更新12/12 20:11"
+git commit -m "feat: 更新12/12 增加ai規劃"
 git push origin main
